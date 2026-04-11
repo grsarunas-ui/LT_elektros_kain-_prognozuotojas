@@ -1,0 +1,140 @@
+LT_elektros_kain-_prognozuotojas
+├── app
+│   └── streamlit_app.py
+├── data
+│   ├── database
+│   ├── processed
+│   │   ├── features_15min_clean.csv
+│   │   ├── features_15min_extended.csv
+│   │   ├── features_hourly_clean.csv
+│   │   ├── features_hourly_extended.csv
+│   │   ├── flows_15min.csv
+│   │   ├── flows_hourly.csv
+│   │   ├── litgrid_features_15min.csv
+│   │   ├── litgrid_features_hourly.csv
+│   │   ├── master_15min.csv
+│   │   ├── master_hourly.csv
+│   │   ├── master_raw.csv
+│   │   ├── master_with_nordpool_15min.csv
+│   │   ├── master_with_nordpool_hourly.csv
+│   │   ├── mlp_predictions_15min_clean.csv
+│   │   ├── mlp_predictions_15min_extended.csv
+│   │   ├── mlp_predictions_hourly_clean.csv
+│   │   ├── mlp_predictions_hourly_extended.csv
+│   │   ├── model_comparison.csv
+│   │   ├── model_detailed_metrics.csv
+│   │   ├── nordpool_15min.csv
+│   │   ├── nordpool_hourly.csv
+│   │   ├── xgb_best_predictions.csv
+│   │   ├── xgb_predictions.csv
+│   │   ├── xgb_predictions_15min_clean.csv
+│   │   ├── xgb_predictions_15min_extended.csv
+│   │   ├── xgb_predictions_hourly_clean.csv
+│   │   └── xgb_predictions_hourly_extended.csv
+│   └── raw
+│       ├── Commercial transfers
+│       │   ├── Commercial flows.xlsx
+│       │   ├── dashboard_data_2022-01-01_2022-12-31.xls
+│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│       │   ├── dashboard_data_2025-01-01_2025-09-29.xls
+│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│       │   └── dashboard_data_2026-01-01_2026-03-15.xls
+│       ├── Electricity consumption data Litgrid
+│       │   ├── dashboard_data_2022-01-01_2022-12-31 (1).xls
+│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│       │   ├── dashboard_data_2026-01-01_2026-03-15.xls
+│       │   ├── Electricity consumption data combined 1.xls
+│       │   └── Electricity consumption data combined.xlsx
+│       ├── Electricity price Litgrid
+│       │   ├── Combined electricity prices Litgrid.xlsx
+│       │   ├── dashboard_data_2022-01-01_2022-12-31.xls
+│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│       │   ├── dashboard_data_2025-01-01_2025-09-30.xls
+│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│       │   └── dashboard_data_2026-01-01_2026-03-15.xls
+│       ├── nordpool_raw
+│       │   ├── GUI_ENERGY_PRICES_202101010000-202201010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202101010000-202201010000.csv
+│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (2).csv
+│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (3).csv
+│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000.csv
+│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (2).csv
+│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (3).csv
+│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000.csv
+│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (2).csv
+│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (3).csv
+│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000.csv
+│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (2).csv
+│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (3).csv
+│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000.csv
+│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (1).csv
+│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (2).csv
+│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (3).csv
+│       │   └── GUI_ENERGY_PRICES_202601010000-202701010000.csv
+│       └── Production data Litgrid
+│           ├── dashboard_data_2022-01-01_2022-12-31.xls
+│           ├── dashboard_data_2023-01-01_2023-12-31.xls
+│           ├── dashboard_data_2024-01-01_2024-12-31.xls
+│           ├── dashboard_data_2025-01-01_2025-03-31.xls
+│           ├── dashboard_data_2025-04-01_2025-07-31.xls
+│           ├── dashboard_data_2025-08-01_2025-12-31.xls
+│           ├── dashboard_data_2026-01-01_2026-03-15.xls
+│           └── Factual production data.xlsx
+├── models
+│   ├── generate_final_plots.py
+│   ├── mlp_model_15min_clean.keras
+│   ├── mlp_model_15min_extended.keras
+│   ├── mlp_model_hourly_clean.keras
+│   ├── mlp_model_hourly_extended.keras
+│   ├── mlp_scaler_15min_clean.pkl
+│   ├── mlp_scaler_15min_extended.pkl
+│   ├── mlp_scaler_hourly_clean.pkl
+│   ├── mlp_scaler_hourly_extended.pkl
+│   ├── plot_model_predictions.py
+│   ├── run_all_models.py
+│   ├── run_no_leakage_test.py
+│   ├── train_mlp.py
+│   ├── train_xgb.py
+│   ├── xgb.pkl
+│   ├── xgb_best.pkl
+│   ├── xgb_model_15min_clean.pkl
+│   ├── xgb_model_15min_extended.pkl
+│   ├── xgb_model_hourly_clean.pkl
+│   └── xgb_model_hourly_extended.pkl
+├── notebooks
+├── reports
+│   ├── xgb_errors.csv
+│   ├── xgb_feature_importance.csv
+│   ├── xgb_feature_importance_15min_clean.csv
+│   ├── xgb_feature_importance_15min_extended.csv
+│   ├── xgb_feature_importance_hourly_clean.csv
+│   ├── xgb_feature_importance_hourly_extended.csv
+│   ├── xgb_summary.json
+│   ├── xgb_summary_15min_clean.json
+│   ├── xgb_summary_15min_extended.json
+│   ├── xgb_summary_hourly_clean.json
+│   ├── xgb_summary_hourly_extended.json
+│   ├── xgb_top_errors.csv
+│   ├── xgb_top_errors_15min_clean.csv
+│   ├── xgb_top_errors_15min_extended.csv
+│   ├── xgb_top_errors_hourly_clean.csv
+│   └── xgb_top_errors_hourly_extended.csv
+├── src
+│   ├── check_data.py
+│   ├── features.py
+│   ├── merge_nordpool_to_master.py
+│   ├── prepare_flows_data.py
+│   ├── prepare_litgrid_data.py
+│   └── prepare_master_data.py
+├── .gitignore
+├── README.md
+├── requirements.txt
+└── showtree.py

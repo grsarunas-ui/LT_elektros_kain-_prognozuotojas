@@ -1,0 +1,46 @@
+{
+  "model": "XGBoost",
+  "dataset": "hourly_clean",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_hourly_clean.csv",
+  "row_count": 36465,
+  "feature_count": 89,
+  "train_rows": 36128,
+  "test_rows": 337,
+  "train_start": "2022-01-08 00:00:00",
+  "train_end": "2026-03-01 22:00:00",
+  "test_start": "2026-03-01 23:00:00",
+  "test_end": "2026-03-15 23:00:00",
+  "mae": 12.689623392547979,
+  "rmse": 23.136749234228017,
+  "r2": 0.8568708570590565,
+  "smape": 22.61856512999653,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance_gain": 0.4050295650959015
+    },
+    {
+      "feature": "lag_2",
+      "importance_gain": 0.11347398906946182
+    },
+    {
+      "feature": "rolling_mean_24h",
+      "importance_gain": 0.10748113691806793
+    },
+    {
+      "feature": "lv_price",
+      "importance_gain": 0.03840557858347893
+    },
+    {
+      "feature": "lag_24",
+      "importance_gain": 0.02755248360335827
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/xgb_predictions_hourly_clean.csv",
+    "model": "models/xgb_model_hourly_clean.pkl",
+    "importance_csv": "reports/xgb_feature_importance_hourly_clean.csv",
+    "top_errors_csv": "reports/xgb_top_errors_hourly_clean.csv",
+    "summary_json": "reports/xgb_summary_hourly_clean.json"
+  }
+}

@@ -18,6 +18,8 @@ LITGRID_HOURLY = Path("data/processed/litgrid_features_hourly.csv")
 FLOWS_15MIN = Path("data/processed/flows_15min.csv")
 FLOWS_HOURLY = Path("data/processed/flows_hourly.csv")
 
+WEATHER_HOURLY = Path("data/processed/weather_lithuania_avg_hourly.csv")
+
 
 def detect_frequency(df: pd.DataFrame) -> str:
     diffs = df["datetime"].diff().dropna()
@@ -33,7 +35,12 @@ def detect_frequency(df: pd.DataFrame) -> str:
 def get_time_config(freq: str) -> dict:
     if freq == "15min":
         return {
-            "price_lags": [1, 4, 8, 96, 192, 672],
+            # SU lag_1
+            # "price_lags": [1, 4, 8, 96, 192, 672],
+
+            # TESTAS BE lag_1
+            "price_lags": [96, 192, 672],
+
             "lag_24h": 96,
             "lag_48h": 192,
             "lag_7d": 672,
@@ -42,7 +49,12 @@ def get_time_config(freq: str) -> dict:
         }
     else:
         return {
-            "price_lags": [1, 2, 3, 24, 48, 72, 168],
+            # SU lag_1
+            # "price_lags": [1, 2, 3, 24, 48, 72, 168],
+
+            # TESTAS BE lag_1
+            "price_lags": [24, 48, 72, 168],
+
             "lag_24h": 24,
             "lag_48h": 48,
             "lag_7d": 168,
@@ -65,6 +77,24 @@ def add_time_features(df: pd.DataFrame, freq: str) -> pd.DataFrame:
     df["hour_week"] = df["weekday"] * 24 + df["hour"]
     df["is_peak_hour"] = df["hour"].isin([7, 8, 9, 17, 18, 19]).astype(int)
 
+    # cyclical features
+    df["hour_sin"] = np.sin(2 * np.pi * df["hour"] / 24)
+    df["hour_cos"] = np.cos(2 * np.pi * df["hour"] / 24)
+
+    df["weekday_sin"] = np.sin(2 * np.pi * df["weekday"] / 7)
+    df["weekday_cos"] = np.cos(2 * np.pi * df["weekday"] / 7)
+
+    df["month_sin"] = np.sin(2 * np.pi * (df["month"] - 1) / 12)
+    df["month_cos"] = np.cos(2 * np.pi * (df["month"] - 1) / 12)
+
+    df["dayofyear_sin"] = np.sin(2 * np.pi * (df["dayofyear"] - 1) / 365.25)
+    df["dayofyear_cos"] = np.cos(2 * np.pi * (df["dayofyear"] - 1) / 365.25)
+
+    if freq == "15min":
+        quarter = (df["hour"] * 60 + df["minute"]) / (24 * 60)
+        df["timeofday_sin"] = np.sin(2 * np.pi * quarter)
+        df["timeofday_cos"] = np.cos(2 * np.pi * quarter)
+
     return df
 
 
@@ -74,40 +104,65 @@ def add_price_features(df: pd.DataFrame, cfg: dict) -> pd.DataFrame:
     for lag in cfg["price_lags"]:
         df[f"lag_{lag}"] = df["price"].shift(lag)
 
-    if "lag_1" in df.columns:
-        df["price_diff_1"] = df["price"].shift(1) - df["price"].shift(2)
+    # safe lag handling
+    lag_1 = df["lag_1"] if "lag_1" in df.columns else df["price"].shift(1)
+    lag_2 = df["lag_2"] if "lag_2" in df.columns else df["price"].shift(2)
+
+    df["price_diff_1"] = lag_1 - lag_2
 
     if f"lag_{cfg['lag_24h']}" in df.columns:
-        df["price_diff_24h"] = df["lag_1"] - df[f"lag_{cfg['lag_24h']}"]
-        df["trend_24h"] = df["lag_1"] - df[f"lag_{cfg['lag_24h']}"]
+        df["price_diff_24h"] = lag_1 - df[f"lag_{cfg['lag_24h']}"]
+        df["trend_24h"] = lag_1 - df[f"lag_{cfg['lag_24h']}"]
 
     if f"lag_{cfg['lag_7d']}" in df.columns:
-        df["trend_7d"] = df["lag_1"] - df[f"lag_{cfg['lag_7d']}"]
+        df["trend_7d"] = lag_1 - df[f"lag_{cfg['lag_7d']}"]
 
     df["rolling_mean_24h"] = df["price"].shift(1).rolling(cfg["roll_24h"]).mean()
     df["rolling_mean_7d"] = df["price"].shift(1).rolling(cfg["roll_7d"]).mean()
 
     df["rolling_std_24h"] = df["price"].shift(1).rolling(cfg["roll_24h"]).std()
+    df["rolling_std_7d"] = df["price"].shift(1).rolling(cfg["roll_7d"]).std()
+
     df["rolling_min_24h"] = df["price"].shift(1).rolling(cfg["roll_24h"]).min()
     df["rolling_max_24h"] = df["price"].shift(1).rolling(cfg["roll_24h"]).max()
 
-    df["price_vs_mean24h"] = df["lag_1"] / (df["rolling_mean_24h"] + 1e-6)
-    df["price_vs_mean7d"] = df["lag_1"] / (df["rolling_mean_7d"] + 1e-6)
+    df["rolling_mean_24h"] = df["rolling_mean_24h"]
+    df["rolling_mean_7d"] = df["rolling_mean_7d"]
 
-    df["price_spike_flag"] = (df["lag_1"] > df["rolling_mean_24h"] * 1.5).astype(int)
+    df["price_vs_mean24h"] = lag_1 / (df["rolling_mean_24h"] + 1e-6)
+    df["price_vs_mean7d"] = lag_1 / (df["rolling_mean_7d"] + 1e-6)
 
-    df["trend_short"] = df["lag_1"] - df["price"].shift(3)
-    df["trend_medium"] = df["lag_1"] - df["price"].shift(6)
+    df["price_spike_flag"] = (lag_1 > df["rolling_mean_24h"] * 1.5).astype(int)
+
+    short_shift = 3
+    medium_shift = 6
+    df["trend_short"] = lag_1 - df["price"].shift(short_shift)
+    df["trend_medium"] = lag_1 - df["price"].shift(medium_shift)
 
     df["price_zscore_24h"] = (
-        (df["lag_1"] - df["rolling_mean_24h"]) /
+        (lag_1 - df["rolling_mean_24h"]) /
         (df["rolling_std_24h"] + 1e-6)
     )
 
     df["range_position_24h"] = (
-        (df["lag_1"] - df["rolling_min_24h"]) /
+        (lag_1 - df["rolling_min_24h"]) /
         (df["rolling_max_24h"] - df["rolling_min_24h"] + 1e-6)
     )
+
+    # spike-aware features
+    df["volatility_24h"] = df["rolling_std_24h"]
+    df["volatility_7d"] = df["rolling_std_7d"]
+
+    df["price_jump_1"] = lag_1 - lag_2
+    df["abs_price_jump_1"] = df["price_jump_1"].abs()
+
+    if f"lag_{cfg['lag_24h']}" in df.columns:
+        df["lag1_vs_lag24"] = lag_1 - df[f"lag_{cfg['lag_24h']}"]
+
+    df["high_vol_regime"] = (
+        df["volatility_24h"] >
+        df["volatility_24h"].shift(1).rolling(cfg["roll_7d"]).mean()
+    ).astype(int)
 
     return df
 
@@ -133,14 +188,22 @@ def add_nordpool_features(df: pd.DataFrame, cfg: dict, include_spreads: bool = T
         df[f"{col}_diff_24h"] = df[col].shift(1) - df[col].shift(cfg["lag_24h"])
 
     if include_spreads:
-        lt_lag_1 = df["price"].shift(1)
+        lt_lag_1 = df["lag_1"] if "lag_1" in df.columns else df["price"].shift(1)
 
         if "lv_price" in df.columns:
             df["spread_lv"] = lt_lag_1 - df["lv_price"].shift(1)
+            df["spread_lv_change"] = df["spread_lv"] - df["spread_lv"].shift(1)
+            df["spread_lv_zscore"] = (
+                (df["spread_lv"] - df["spread_lv"].shift(1).rolling(cfg["roll_24h"]).mean()) /
+                (df["spread_lv"].shift(1).rolling(cfg["roll_24h"]).std() + 1e-6)
+            )
+
         if "ee_price" in df.columns:
             df["spread_ee"] = lt_lag_1 - df["ee_price"].shift(1)
+
         if "se4_price" in df.columns:
             df["spread_se4"] = lt_lag_1 - df["se4_price"].shift(1)
+
         if "pl_price" in df.columns:
             df["spread_pl"] = lt_lag_1 - df["pl_price"].shift(1)
 
@@ -195,7 +258,6 @@ def add_litgrid_features(df: pd.DataFrame, freq: str, cfg: dict) -> pd.DataFrame
         df["net_load_diff_24h"] = df["net_load_mw"].shift(1) - df["net_load_mw"].shift(cfg["lag_24h"])
 
     df = df.drop(columns=existing_base_cols, errors="ignore")
-
     return df
 
 
@@ -239,7 +301,58 @@ def add_flows_features(df: pd.DataFrame, freq: str, cfg: dict) -> pd.DataFrame:
         df["flow_abs_total_diff_24h"] = df["flow_abs_total"].shift(1) - df["flow_abs_total"].shift(cfg["lag_24h"])
 
     df = df.drop(columns=existing_base_cols, errors="ignore")
+    return df
 
+
+def add_weather_features(df: pd.DataFrame, freq: str, cfg: dict) -> pd.DataFrame:
+    df = df.copy()
+
+    if not WEATHER_HOURLY.exists():
+        print(f"⚠️ Weather failas nerastas: {WEATHER_HOURLY}")
+        return df
+
+    weather = pd.read_csv(WEATHER_HOURLY)
+    weather["datetime"] = pd.to_datetime(weather["datetime"], errors="coerce")
+    weather = weather.dropna(subset=["datetime"]).sort_values("datetime").reset_index(drop=True)
+
+    weather_cols = [
+        "temperature_2m",
+        "wind_speed_10m",
+        "cloud_cover",
+        "shortwave_radiation",
+        "solar_proxy",
+    ]
+    existing_weather_cols = [c for c in weather_cols if c in weather.columns]
+    if not existing_weather_cols:
+        return df
+
+    weather = weather[["datetime"] + existing_weather_cols].copy()
+
+    if freq == "15min":
+        weather = (
+            weather.set_index("datetime")
+            .resample("15min")
+            .ffill()
+            .reset_index()
+        )
+
+    df = df.merge(weather, on="datetime", how="left")
+
+    for col in existing_weather_cols:
+        df[f"{col}_lag_1"] = df[col].shift(1)
+        df[f"{col}_lag_24h"] = df[col].shift(cfg["lag_24h"])
+        df[f"{col}_lag_48h"] = df[col].shift(cfg["lag_48h"])
+
+        df[f"{col}_rolling_mean_24h"] = df[col].shift(1).rolling(cfg["roll_24h"]).mean()
+        df[f"{col}_rolling_std_24h"] = df[col].shift(1).rolling(cfg["roll_24h"]).std()
+
+    if "wind_speed_10m" in df.columns and "shortwave_radiation" in df.columns:
+        df["wind_solar_interaction"] = df["wind_speed_10m"].shift(1) * df["shortwave_radiation"].shift(1)
+
+    if "cloud_cover" in df.columns and "shortwave_radiation" in df.columns:
+        df["solar_cloud_adjusted"] = df["shortwave_radiation"].shift(1) * (1 - df["cloud_cover"].shift(1) / 100.0)
+
+    df = df.drop(columns=existing_weather_cols, errors="ignore")
     return df
 
 
@@ -262,6 +375,10 @@ def create_features(df: pd.DataFrame, mode: str = "clean") -> pd.DataFrame:
     df = add_price_features(df, cfg)
     df = add_litgrid_features(df, freq, cfg)
     df = add_flows_features(df, freq, cfg)
+
+    # Jei nori išjungti weather testui, užkomentuok šitą eilutę:
+    # df = add_weather_features(df, freq, cfg)
+    df = add_weather_features(df, freq, cfg)
 
     if mode == "extended":
         df = add_nordpool_features(df, cfg, include_spreads=True)

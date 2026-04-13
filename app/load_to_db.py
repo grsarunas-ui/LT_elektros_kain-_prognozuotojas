@@ -31,18 +31,22 @@ PREDICTION_FILES = {
     "15min_clean": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_15min_clean.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_15min_clean.csv",
+        "LSTM": PROCESSED_DIR / "lstm_predictions_15min_clean.csv",
     },
     "15min_extended": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_15min_extended.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_15min_extended.csv",
+        "LSTM": PROCESSED_DIR / "lstm_predictions_15min_extended.csv",
     },
     "hourly_clean": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_hourly_clean.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_hourly_clean.csv",
+        "LSTM": PROCESSED_DIR / "lstm_predictions_hourly_clean.csv",
     },
     "hourly_extended": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_hourly_extended.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_hourly_extended.csv",
+        "LSTM": PROCESSED_DIR / "lstm_predictions_hourly_extended.csv",
     },
 }
 
@@ -53,13 +57,26 @@ def safe_read_csv(path: Path) -> pd.DataFrame | None:
     if not path.exists():
         print(f"Nerastas failas: {path}")
         return None
-    return pd.read_csv(path)
+
+    try:
+        return pd.read_csv(path)
+    except Exception as exc:
+        print(f"Nepavyko nuskaityti failo {path}: {exc}")
+        return None
 
 
 def parse_datetime(df: pd.DataFrame, column: str = "datetime") -> pd.DataFrame:
     df = df.copy()
     df[column] = pd.to_datetime(df[column], errors="coerce")
     df = df.dropna(subset=[column]).sort_values(column).reset_index(drop=True)
+    return df
+
+
+def safe_numeric(df: pd.DataFrame, columns: list[str]) -> pd.DataFrame:
+    df = df.copy()
+    for col in columns:
+        if col in df.columns:
+            df[col] = pd.to_numeric(df[col], errors="coerce")
     return df
 
 
@@ -113,7 +130,28 @@ def load_market_dataframe(frequency: str) -> pd.DataFrame | None:
             df_flows = parse_datetime(df_flows, "datetime")
             df = df.merge(df_flows, on="datetime", how="left")
 
-    df = df.sort_values("datetime").drop_duplicates(subset=["datetime"], keep="last").reset_index(drop=True)
+    numeric_cols = [
+        "price",
+        "lv_price",
+        "ee_price",
+        "se4_price",
+        "pl_price",
+        "consumption_mw",
+        "production_total_mw",
+        "flow_lt_lv",
+        "flow_lt_se",
+        "flow_lt_pl",
+        "flow_total",
+        "flow_abs_total",
+    ]
+    df = safe_numeric(df, numeric_cols)
+
+    df = (
+        df.replace([float("inf"), float("-inf")], pd.NA)
+        .sort_values("datetime")
+        .drop_duplicates(subset=["datetime"], keep="last")
+        .reset_index(drop=True)
+    )
     return df
 
 
@@ -148,9 +186,10 @@ def upload_market_data(session, version: DataVersion):
                 )
             )
 
-        session.bulk_save_objects(rows)
-        session.commit()
-        total_inserted += len(rows)
+        if rows:
+            session.bulk_save_objects(rows)
+            session.commit()
+            total_inserted += len(rows)
 
         print(f"✓ Sukelta market_data ({frequency}): {len(rows)} eilučių")
 
@@ -166,15 +205,18 @@ def upload_predictions(session, version: DataVersion):
             if df is None:
                 continue
 
-            if not {"datetime", "price", "predicted_price"}.issubset(df.columns):
+            required_cols = {"datetime", "price", "predicted_price"}
+            if not required_cols.issubset(df.columns):
                 print(f"Praleista predictions dėl blogo formato: {path}")
                 continue
 
             df = parse_datetime(df, "datetime")
-            df["price"] = pd.to_numeric(df["price"], errors="coerce")
-            df["predicted_price"] = pd.to_numeric(df["predicted_price"], errors="coerce")
+            df = safe_numeric(df, ["price", "predicted_price"])
+
             df["abs_error"] = (df["predicted_price"] - df["price"]).abs()
             df["error"] = df["predicted_price"] - df["price"]
+
+            df = df.dropna(subset=["datetime", "price", "predicted_price"]).reset_index(drop=True)
 
             rows = []
             for _, row in df.iterrows():
@@ -191,9 +233,10 @@ def upload_predictions(session, version: DataVersion):
                     )
                 )
 
-            session.bulk_save_objects(rows)
-            session.commit()
-            total_rows += len(rows)
+            if rows:
+                session.bulk_save_objects(rows)
+                session.commit()
+                total_rows += len(rows)
 
             print(f"✓ Sukelta predictions: {dataset_name} / {model_name} / {len(rows)} eilučių")
 
@@ -211,6 +254,9 @@ def upload_metrics(session, version: DataVersion):
         print("Praleista model_metrics – blogas model_comparison.csv formatas")
         return
 
+    df = safe_numeric(df, ["mae", "rmse", "r2", "smape"])
+    df = df.dropna(subset=["data", "model", "mae", "rmse", "r2", "smape"]).reset_index(drop=True)
+
     rows = []
     for _, row in df.iterrows():
         rows.append(
@@ -225,8 +271,10 @@ def upload_metrics(session, version: DataVersion):
             )
         )
 
-    session.bulk_save_objects(rows)
-    session.commit()
+    if rows:
+        session.bulk_save_objects(rows)
+        session.commit()
+
     print(f"✓ Sukelta model_metrics: {len(rows)} eilučių")
 
 

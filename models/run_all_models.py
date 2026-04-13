@@ -1,5 +1,6 @@
 import subprocess
 from pathlib import Path
+
 import pandas as pd
 
 
@@ -19,11 +20,12 @@ FEATURE_FILES = [
 
 TRAIN_XGB = BASE_PATH / "models/train_xgb.py"
 TRAIN_MLP = BASE_PATH / "models/train_mlp.py"
+TRAIN_LSTM = BASE_PATH / "models/train_lstm.py"
 
 RESULTS_OUT = BASE_PATH / "data/processed/model_comparison.csv"
 
 
-def run_model(script_path: Path, features_path: Path):
+def run_model(script_path: Path, features_path: Path) -> bool:
     print("\n==============================")
     print(f"Running: {script_path.name} on {features_path.name}")
 
@@ -32,19 +34,22 @@ def run_model(script_path: Path, features_path: Path):
             PYTHON,
             str(script_path),
             "--features",
-            str(features_path)
+            str(features_path),
         ],
         capture_output=True,
         text=True
     )
 
-    print(result.stdout)
+    if result.stdout:
+        print(result.stdout)
 
     if result.returncode != 0:
-        print(result.stderr)
+        if result.stderr:
+            print(result.stderr)
         print(f"❌ Klaida paleidžiant {script_path.name} su {features_path.name}")
         return False
 
+    print(f"✅ Baigta: {script_path.name} su {features_path.name}")
     return True
 
 
@@ -53,10 +58,14 @@ def parse_metrics(predictions_path: Path, model_name: str, data_name: str):
     import numpy as np
 
     if not predictions_path.exists():
+        print(f"⚠️ Nerastas prognozių failas: {predictions_path}")
         return None
 
     df = pd.read_csv(predictions_path)
-    if not {"price", "predicted_price"}.issubset(df.columns):
+
+    required_cols = {"price", "predicted_price"}
+    if not required_cols.issubset(df.columns):
+        print(f"⚠️ Trūksta stulpelių faile: {predictions_path}")
         return None
 
     y_true = df["price"]
@@ -76,32 +85,63 @@ def parse_metrics(predictions_path: Path, model_name: str, data_name: str):
     }
 
 
+def collect_model_metrics(dataset_name: str, model_name: str):
+    prediction_map = {
+        "XGBoost": BASE_PATH / f"data/processed/xgb_predictions_{dataset_name}.csv",
+        "MLP": BASE_PATH / f"data/processed/mlp_predictions_{dataset_name}.csv",
+        "LSTM": BASE_PATH / f"data/processed/lstm_predictions_{dataset_name}.csv",
+    }
+
+    if model_name not in prediction_map:
+        raise ValueError(f"Nepalaikomas modelis: {model_name}")
+
+    return parse_metrics(prediction_map[model_name], model_name, dataset_name)
+
+
 def main():
     results = []
 
+    model_scripts = [
+        ("XGBoost", TRAIN_XGB),
+        ("MLP", TRAIN_MLP),
+        ("LSTM", TRAIN_LSTM),
+    ]
+
     for features in FEATURE_FILES:
+        print("\n" + "=" * 80)
+        print(f"DATASET: {features.name}")
+
         if not features.exists():
-            print(f"Nerastas failas: {features}")
+            print(f"❌ Nerastas failas: {features}")
             continue
 
         dataset_name = features.stem.replace("features_", "")
+        run_status = {}
 
-        run_model(TRAIN_XGB, features)
-        run_model(TRAIN_MLP, features)
+        for model_name, script_path in model_scripts:
+            if not script_path.exists():
+                print(f"❌ Nerastas modelio skriptas: {script_path}")
+                run_status[model_name] = False
+                continue
 
-        xgb_pred = BASE_PATH / f"data/processed/xgb_predictions_{dataset_name}.csv"
-        mlp_pred = BASE_PATH / f"data/processed/mlp_predictions_{dataset_name}.csv"
+            ok = run_model(script_path, features)
+            run_status[model_name] = ok
 
-        xgb_metrics = parse_metrics(xgb_pred, "XGBoost", dataset_name)
-        mlp_metrics = parse_metrics(mlp_pred, "MLP", dataset_name)
+        for model_name, _ in model_scripts:
+            if not run_status.get(model_name, False):
+                continue
 
-        if xgb_metrics:
-            results.append(xgb_metrics)
-        if mlp_metrics:
-            results.append(mlp_metrics)
+            metrics = collect_model_metrics(dataset_name, model_name)
+            if metrics:
+                results.append(metrics)
 
     if results:
-        df_results = pd.DataFrame(results).sort_values(["data", "mae"]).reset_index(drop=True)
+        df_results = (
+            pd.DataFrame(results)
+            .sort_values(["data", "mae"])
+            .reset_index(drop=True)
+        )
+
         print("\n==============================")
         print("FINAL COMPARISON")
         print(df_results)

@@ -1,0 +1,22 @@
+{
+  "run_name": "xgb_compare_2022-01-01_2026-03-01_15min_extended",
+  "model": "XGBoost",
+  "dataset_name": "15min_extended",
+  "train_start": "2025-10-08 00:00:00",
+  "train_end": "2026-03-01 00:00:00",
+  "test_start": "2026-03-02 00:00:00",
+  "test_end": "2026-03-15 00:00:00",
+  "train_rows": 13633,
+  "test_rows": 1249,
+  "feature_count": 155,
+  "mae": 17.121192375714536,
+  "rmse": 25.42269951887578,
+  "r2": 0.849352887159266,
+  "smape": 31.446900251103173,
+  "files": {
+    "predictions": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/xgb_compare_2022-01-01_2026-03-01_15min_extended/xgb_predictions_15min_extended.csv",
+    "model": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/xgb_compare_2022-01-01_2026-03-01_15min_extended/xgb_model_15min_extended.pkl",
+    "importance": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/xgb_compare_2022-01-01_2026-03-01_15min_extended/xgb_feature_importance_15min_extended.csv",
+    "top_errors": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/xgb_compare_2022-01-01_2026-03-01_15min_extended/xgb_top_errors_15min_extended.csv"
+  }
+}

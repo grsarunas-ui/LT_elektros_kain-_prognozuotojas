@@ -1,0 +1,76 @@
+{
+  "model": "XGBoost",
+  "dataset": "hourly_extended",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_hourly_extended.csv",
+  "row_count": 36848,
+  "feature_count": 157,
+  "train_rows": 36512,
+  "test_rows": 336,
+  "train_start": "2022-01-08 00:00:00",
+  "train_end": "2026-03-17 22:00:00",
+  "test_start": "2026-03-17 23:00:00",
+  "test_end": "2026-03-31 23:00:00",
+  "cv_n_splits": 3,
+  "cv_candidates": 6,
+  "best_params": {
+    "n_estimators": 500,
+    "max_depth": 6,
+    "learning_rate": 0.03,
+    "subsample": 0.9,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 5,
+    "reg_alpha": 0.0,
+    "reg_lambda": 3.0,
+    "gamma": 0.0
+  },
+  "best_cv_result": {
+    "n_estimators": 500.0,
+    "max_depth": 6.0,
+    "learning_rate": 0.03,
+    "subsample": 0.9,
+    "colsample_bytree": 0.8,
+    "min_child_weight": 5.0,
+    "reg_alpha": 0.0,
+    "reg_lambda": 3.0,
+    "gamma": 0.0,
+    "cv_mae_mean": 11.666868227180219,
+    "cv_mae_std": 0.17225961304439902,
+    "cv_rmse_mean": 24.292953800856083,
+    "cv_r2_mean": 0.8723126156377973,
+    "cv_smape_mean": 22.884808746492585
+  },
+  "mae": 16.045596816883688,
+  "rmse": 27.952606640445435,
+  "r2": 0.8371225121485962,
+  "smape": 30.41503941319843,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance": 0.48948490619659424
+    },
+    {
+      "feature": "lv_price_rolling_mean_24h",
+      "importance": 0.1115201860666275
+    },
+    {
+      "feature": "flow_lt_lv_lag_48h",
+      "importance": 0.017236730083823204
+    },
+    {
+      "feature": "lag_24",
+      "importance": 0.014337904751300812
+    },
+    {
+      "feature": "lag_2",
+      "importance": 0.010799026116728783
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/xgb_predictions_hourly_extended.csv",
+    "model": "models/xgb_model_hourly_extended.pkl",
+    "importance_csv": "reports/xgb_feature_importance_hourly_extended.csv",
+    "top_errors_csv": "reports/xgb_top_errors_hourly_extended.csv",
+    "summary_json": "reports/xgb_summary_hourly_extended.json",
+    "cv_results_csv": "reports/xgb_cv_results_hourly_extended.csv"
+  }
+}

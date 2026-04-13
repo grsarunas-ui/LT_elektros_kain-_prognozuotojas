@@ -36,10 +36,10 @@ def get_time_config(freq: str) -> dict:
     if freq == "15min":
         return {
             # SU lag_1
-            # "price_lags": [1, 4, 8, 96, 192, 672],
+            "price_lags": [1, 4, 8, 96, 192, 672],
 
             # TESTAS BE lag_1
-            "price_lags": [96, 192, 672],
+            # "price_lags": [96, 192, 672],
 
             "lag_24h": 96,
             "lag_48h": 192,
@@ -50,10 +50,10 @@ def get_time_config(freq: str) -> dict:
     else:
         return {
             # SU lag_1
-            # "price_lags": [1, 2, 3, 24, 48, 72, 168],
+            "price_lags": [1, 2, 3, 24, 48, 72, 168],
 
             # TESTAS BE lag_1
-            "price_lags": [24, 48, 72, 168],
+            # "price_lags": [24, 48, 72, 168],
 
             "lag_24h": 24,
             "lag_48h": 48,

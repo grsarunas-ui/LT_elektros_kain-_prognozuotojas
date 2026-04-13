@@ -1,0 +1,40 @@
+{
+  "model": "MLP",
+  "dataset": "15min_extended",
+  "profile": "15min",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_15min_extended.csv",
+  "row_count": 16602,
+  "feature_count": 158,
+  "dropped_columns": [
+    "lag_1",
+    "price_return_1"
+  ],
+  "train_rows": 15261,
+  "train_fit_rows": 13735,
+  "valid_rows": 1526,
+  "test_rows": 1341,
+  "train_start": "2025-10-08 00:00:00",
+  "train_end": "2026-03-17 23:00:00",
+  "valid_start": "2026-03-02 01:45:00",
+  "valid_end": "2026-03-17 23:00:00",
+  "test_start": "2026-03-17 23:15:00",
+  "test_end": "2026-03-31 23:15:00",
+  "epochs_trained": 59,
+  "best_val_loss": 0.1830984354019165,
+  "loss_name": "mae",
+  "learning_rate": 0.0003,
+  "batch_size": 64,
+  "mae": 19.708759931981074,
+  "rmse": 33.637941500185676,
+  "r2": 0.7952428563058674,
+  "smape": 42.8103418320417,
+  "output_files": {
+    "predictions": "data/processed/mlp_predictions_15min_extended.csv",
+    "model": "models/mlp_model_15min_extended.keras",
+    "x_scaler": "models/mlp_scaler_15min_extended.pkl",
+    "y_scaler": "models/mlp_y_scaler_15min_extended.pkl",
+    "history_csv": "reports/mlp_history_15min_extended.csv",
+    "top_errors_csv": "reports/mlp_top_errors_15min_extended.csv",
+    "summary_json": "reports/mlp_summary_15min_extended.json"
+  }
+}

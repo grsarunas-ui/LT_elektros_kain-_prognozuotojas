@@ -21,12 +21,24 @@ class DataVersion(Base):
     description = Column(Text, nullable=True)
     created_at = Column(DateTime, nullable=True)
 
-    market_rows = relationship("MarketData", back_populates="data_version", cascade="all, delete-orphan")
-    predictions = relationship("Prediction", back_populates="data_version", cascade="all, delete-orphan")
-    metrics = relationship("ModelMetric", back_populates="data_version", cascade="all, delete-orphan")
+    market_rows = relationship(
+        "MarketData",
+        back_populates="data_version",
+        cascade="all, delete-orphan",
+    )
+    predictions = relationship(
+        "Prediction",
+        back_populates="data_version",
+        cascade="all, delete-orphan",
+    )
+    metrics = relationship(
+        "ModelMetric",
+        back_populates="data_version",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
-        return f"<DataVersion(version_name={self.version_name})>"
+        return f"<DataVersion(id={self.id}, version_name='{self.version_name}')>"
 
 
 class MarketData(Base):
@@ -34,7 +46,12 @@ class MarketData(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    data_version_id = Column(Integer, ForeignKey("data_versions.id"), nullable=False, index=True)
+    data_version_id = Column(
+        Integer,
+        ForeignKey("data_versions.id"),
+        nullable=False,
+        index=True,
+    )
     frequency = Column(String, nullable=False, index=True)  # 'hourly' arba '15min'
     datetime = Column(DateTime, nullable=False, index=True)
 
@@ -69,7 +86,10 @@ class MarketData(Base):
     )
 
     def __repr__(self):
-        return f"<MarketData(freq={self.frequency}, datetime={self.datetime})>"
+        return (
+            f"<MarketData(id={self.id}, frequency='{self.frequency}', "
+            f"datetime='{self.datetime}')>"
+        )
 
 
 class Prediction(Base):
@@ -77,9 +97,14 @@ class Prediction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    data_version_id = Column(Integer, ForeignKey("data_versions.id"), nullable=False, index=True)
+    data_version_id = Column(
+        Integer,
+        ForeignKey("data_versions.id"),
+        nullable=False,
+        index=True,
+    )
     dataset_name = Column(String, nullable=False, index=True)   # pvz. hourly_extended
-    model_name = Column(String, nullable=False, index=True)     # XGBoost / MLP
+    model_name = Column(String, nullable=False, index=True)     # pvz. XGBoost / MLP / LSTM
     datetime = Column(DateTime, nullable=False, index=True)
 
     actual_price = Column(Float, nullable=True)
@@ -100,7 +125,10 @@ class Prediction(Base):
     )
 
     def __repr__(self):
-        return f"<Prediction(dataset={self.dataset_name}, model={self.model_name}, datetime={self.datetime})>"
+        return (
+            f"<Prediction(id={self.id}, dataset='{self.dataset_name}', "
+            f"model='{self.model_name}', datetime='{self.datetime}')>"
+        )
 
 
 class ModelMetric(Base):
@@ -108,9 +136,14 @@ class ModelMetric(Base):
 
     id = Column(Integer, primary_key=True, index=True)
 
-    data_version_id = Column(Integer, ForeignKey("data_versions.id"), nullable=False, index=True)
+    data_version_id = Column(
+        Integer,
+        ForeignKey("data_versions.id"),
+        nullable=False,
+        index=True,
+    )
     dataset_name = Column(String, nullable=False, index=True)
-    model_name = Column(String, nullable=False, index=True)
+    model_name = Column(String, nullable=False, index=True)  # XGBoost / MLP / LSTM
 
     mae = Column(Float, nullable=True)
     rmse = Column(Float, nullable=True)
@@ -129,4 +162,7 @@ class ModelMetric(Base):
     )
 
     def __repr__(self):
-        return f"<ModelMetric(dataset={self.dataset_name}, model={self.model_name})>"
+        return (
+            f"<ModelMetric(id={self.id}, dataset='{self.dataset_name}', "
+            f"model='{self.model_name}')>"
+        )

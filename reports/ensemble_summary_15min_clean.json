@@ -1,0 +1,151 @@
+{
+  "model": "Ensemble",
+  "dataset": "15min_clean",
+  "rows": 1408,
+  "models_used": [
+    "XGBoost",
+    "LightGBM",
+    "CatBoost",
+    "MLP",
+    "LSTM"
+  ],
+  "weights": {
+    "XGBoost": 0.0,
+    "LightGBM": 0.2,
+    "CatBoost": 0.8,
+    "MLP": 0.0,
+    "LSTM": 0.0
+  },
+  "mae": 10.940832454193272,
+  "rmse": 21.851684139569638,
+  "r2": 0.8823305595553785,
+  "smape": 18.94096826893921,
+  "top_10_weight_search": [
+    {
+      "weights": "{\"XGBoost\": 0.0, \"LightGBM\": 0.2, \"CatBoost\": 0.8, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.0,
+      "w_LightGBM": 0.2,
+      "w_CatBoost": 0.8,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.940832454193272,
+      "rmse": 21.851684139569638,
+      "r2": 0.8823305595553785,
+      "smape": 18.94096826893921
+    },
+    {
+      "weights": "{\"XGBoost\": 0.0, \"LightGBM\": 0.15000000000000002, \"CatBoost\": 0.8500000000000001, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.0,
+      "w_LightGBM": 0.15000000000000002,
+      "w_CatBoost": 0.8500000000000001,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.943476935463064,
+      "rmse": 21.864136644251598,
+      "r2": 0.8821964100084417,
+      "smape": 18.949791015593586
+    },
+    {
+      "weights": "{\"XGBoost\": 0.05, \"LightGBM\": 0.15000000000000002, \"CatBoost\": 0.8, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.05,
+      "w_LightGBM": 0.15000000000000002,
+      "w_CatBoost": 0.8,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.948202114863316,
+      "rmse": 21.887709841847247,
+      "r2": 0.8819422491066127,
+      "smape": 19.032505258287376
+    },
+    {
+      "weights": "{\"XGBoost\": 0.0, \"LightGBM\": 0.25, \"CatBoost\": 0.75, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.0,
+      "w_LightGBM": 0.25,
+      "w_CatBoost": 0.75,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.95110000941445,
+      "rmse": 21.84877058482901,
+      "r2": 0.8823619359470666,
+      "smape": 18.968605785433017
+    },
+    {
+      "weights": "{\"XGBoost\": 0.05, \"LightGBM\": 0.1, \"CatBoost\": 0.8500000000000001, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.05,
+      "w_LightGBM": 0.1,
+      "w_CatBoost": 0.8500000000000001,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.953383791239565,
+      "rmse": 21.902648051097646,
+      "r2": 0.8817810469331732,
+      "smape": 19.047178261125495
+    },
+    {
+      "weights": "{\"XGBoost\": 0.05, \"LightGBM\": 0.2, \"CatBoost\": 0.75, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.05,
+      "w_LightGBM": 0.2,
+      "w_CatBoost": 0.75,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.955286363401568,
+      "rmse": 21.882292850327616,
+      "r2": 0.8820006781248033,
+      "smape": 19.050981748797533
+    },
+    {
+      "weights": "{\"XGBoost\": 0.0, \"LightGBM\": 0.1, \"CatBoost\": 0.9, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.0,
+      "w_LightGBM": 0.1,
+      "w_CatBoost": 0.9,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.959981893535065,
+      "rmse": 21.886111816799453,
+      "r2": 0.881959487306256,
+      "smape": 18.98382482360203
+    },
+    {
+      "weights": "{\"XGBoost\": 0.1, \"LightGBM\": 0.1, \"CatBoost\": 0.8, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.1,
+      "w_LightGBM": 0.1,
+      "w_CatBoost": 0.8,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.964491013021906,
+      "rmse": 21.929774626800064,
+      "r2": 0.8814880356734738,
+      "smape": 19.141238252680004
+    },
+    {
+      "weights": "{\"XGBoost\": 0.1, \"LightGBM\": 0.15000000000000002, \"CatBoost\": 0.75, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.1,
+      "w_LightGBM": 0.15000000000000002,
+      "w_CatBoost": 0.75,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.967470025299688,
+      "rmse": 21.92186432269112,
+      "r2": 0.881573517318167,
+      "smape": 19.146195097725265
+    },
+    {
+      "weights": "{\"XGBoost\": 0.1, \"LightGBM\": 0.05, \"CatBoost\": 0.8500000000000001, \"MLP\": 0.0, \"LSTM\": 0.0}",
+      "w_XGBoost": 0.1,
+      "w_LightGBM": 0.05,
+      "w_CatBoost": 0.8500000000000001,
+      "w_MLP": 0.0,
+      "w_LSTM": 0.0,
+      "mae": 10.971191927320366,
+      "rmse": 21.94718530422447,
+      "r2": 0.8812997808735317,
+      "smape": 19.15937155600816
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/ensemble_predictions_15min_clean.csv",
+    "summary_json": "reports/ensemble_summary_15min_clean.json",
+    "weight_search_csv": "reports/ensemble_weight_search_15min_clean.csv",
+    "top_errors_csv": "reports/ensemble_top_errors_15min_clean.csv"
+  }
+}

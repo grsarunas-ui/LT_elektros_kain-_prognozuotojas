@@ -1,0 +1,69 @@
+{
+  "model": "CatBoost",
+  "dataset": "15min_extended",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_15min_extended.csv",
+  "row_count": 16602,
+  "feature_count": 160,
+  "train_rows": 13632,
+  "test_rows": 1440,
+  "train_start": "2025-10-08 00:00:00",
+  "train_end": "2026-02-28 23:45:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:45:00",
+  "manual_split": true,
+  "cv_n_splits": 3,
+  "cv_candidates": 6,
+  "best_params": {
+    "iterations": 500,
+    "learning_rate": 0.03,
+    "depth": 5,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8
+  },
+  "best_cv_result": {
+    "iterations": 500.0,
+    "learning_rate": 0.03,
+    "depth": 5.0,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8,
+    "cv_mae_mean": 13.475110719236241,
+    "cv_mae_std": 2.2466589190683735,
+    "cv_rmse_mean": 25.85422679870751,
+    "cv_r2_mean": 0.8993494553443169,
+    "cv_smape_mean": 13.921683130633719
+  },
+  "mae": 11.011768635322408,
+  "rmse": 21.83400171466184,
+  "r2": 0.8800063270476839,
+  "smape": 19.86083331041248,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance": 61.92822446633117
+    },
+    {
+      "feature": "lag_4",
+      "importance": 7.4256406792180645
+    },
+    {
+      "feature": "minute",
+      "importance": 2.455281924227413
+    },
+    {
+      "feature": "spread_se4",
+      "importance": 1.6331214999700567
+    },
+    {
+      "feature": "spread_pl",
+      "importance": 1.6314324967096152
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/catboost_predictions_15min_extended.csv",
+    "model": "models/catboost_model_15min_extended.cbm",
+    "importance_csv": "reports/catboost_feature_importance_15min_extended.csv",
+    "top_errors_csv": "reports/catboost_top_errors_15min_extended.csv",
+    "summary_json": "reports/catboost_summary_15min_extended.json",
+    "cv_results_csv": "reports/catboost_cv_results_15min_extended.csv"
+  }
+}

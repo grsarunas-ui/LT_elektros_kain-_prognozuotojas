@@ -1,0 +1,69 @@
+{
+  "model": "CatBoost",
+  "dataset": "15min_clean",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_15min_clean.csv",
+  "row_count": 16602,
+  "feature_count": 107,
+  "train_rows": 13632,
+  "test_rows": 1440,
+  "train_start": "2025-10-08 00:00:00",
+  "train_end": "2026-02-28 23:45:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:45:00",
+  "manual_split": true,
+  "cv_n_splits": 3,
+  "cv_candidates": 6,
+  "best_params": {
+    "iterations": 500,
+    "learning_rate": 0.03,
+    "depth": 5,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8
+  },
+  "best_cv_result": {
+    "iterations": 500.0,
+    "learning_rate": 0.03,
+    "depth": 5.0,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8,
+    "cv_mae_mean": 13.302018192128449,
+    "cv_mae_std": 2.5059901982435617,
+    "cv_rmse_mean": 26.62541929375671,
+    "cv_r2_mean": 0.8934989994696383,
+    "cv_smape_mean": 13.314645721487581
+  },
+  "mae": 10.978890747010329,
+  "rmse": 21.77055900868237,
+  "r2": 0.8807026412944532,
+  "smape": 18.96161932646724,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance": 60.724118007183286
+    },
+    {
+      "feature": "lag_4",
+      "importance": 9.335947742617934
+    },
+    {
+      "feature": "lv_price",
+      "importance": 4.455313636027565
+    },
+    {
+      "feature": "ee_price",
+      "importance": 2.6755617778914047
+    },
+    {
+      "feature": "minute",
+      "importance": 2.1037406965656853
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/catboost_predictions_15min_clean.csv",
+    "model": "models/catboost_model_15min_clean.cbm",
+    "importance_csv": "reports/catboost_feature_importance_15min_clean.csv",
+    "top_errors_csv": "reports/catboost_top_errors_15min_clean.csv",
+    "summary_json": "reports/catboost_summary_15min_clean.json",
+    "cv_results_csv": "reports/catboost_cv_results_15min_clean.csv"
+  }
+}

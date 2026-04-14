@@ -1,17 +1,149 @@
 LT_elektros_kain-_prognozuotojas
 ├── app
-│   └── streamlit_app.py
+│   ├── db.py
+│   ├── db_check.py
+│   ├── load_to_db.py
+│   ├── models.py
+│   ├── queries.py
+│   ├── streamlit_app.py
+│   └── training_utils.py
+├── catboost_info
+│   ├── learn
+│   │   └── events.out.tfevents
+│   ├── test
+│   │   └── events.out.tfevents
+│   ├── tmp
+│   ├── catboost_training.json
+│   ├── learn_error.tsv
+│   ├── test_error.tsv
+│   └── time_left.tsv
 ├── data
 │   ├── database
+│   │   └── electricity_forecast.db
 │   ├── processed
+│   │   ├── interactive_runs
+│   │   │   ├── catboost_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── catboost_feature_importance_15min_clean.csv
+│   │   │   │   ├── catboost_model_15min_clean.cbm
+│   │   │   │   ├── catboost_predictions_15min_clean.csv
+│   │   │   │   ├── catboost_summary_15min_clean.json
+│   │   │   │   └── catboost_top_errors_15min_clean.csv
+│   │   │   ├── catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15_00_00_00
+│   │   │   │   ├── catboost_feature_importance_hourly_extended.csv
+│   │   │   │   ├── catboost_model_hourly_extended.cbm
+│   │   │   │   ├── catboost_predictions_hourly_extended.csv
+│   │   │   │   ├── catboost_summary_hourly_extended.json
+│   │   │   │   └── catboost_top_errors_hourly_extended.csv
+│   │   │   ├── catboost_hourly_extended_2022-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── catboost_feature_importance_hourly_extended.csv
+│   │   │   │   ├── catboost_model_hourly_extended.cbm
+│   │   │   │   ├── catboost_predictions_hourly_extended.csv
+│   │   │   │   ├── catboost_summary_hourly_extended.json
+│   │   │   │   └── catboost_top_errors_hourly_extended.csv
+│   │   │   ├── catboost_hourly_extended_2024-01-01_2026-03-01_2026-03-15_00_00_00
+│   │   │   │   ├── catboost_feature_importance_hourly_extended.csv
+│   │   │   │   ├── catboost_model_hourly_extended.cbm
+│   │   │   │   ├── catboost_predictions_hourly_extended.csv
+│   │   │   │   ├── catboost_summary_hourly_extended.json
+│   │   │   │   └── catboost_top_errors_hourly_extended.csv
+│   │   │   ├── catboost_hourly_extended_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── catboost_feature_importance_hourly_extended.csv
+│   │   │   │   ├── catboost_model_hourly_extended.cbm
+│   │   │   │   ├── catboost_predictions_hourly_extended.csv
+│   │   │   │   ├── catboost_summary_hourly_extended.json
+│   │   │   │   └── catboost_top_errors_hourly_extended.csv
+│   │   │   ├── lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── lgbm_feature_importance_15min_clean.csv
+│   │   │   │   ├── lgbm_model_15min_clean.pkl
+│   │   │   │   ├── lgbm_predictions_15min_clean.csv
+│   │   │   │   ├── lgbm_summary_15min_clean.json
+│   │   │   │   └── lgbm_top_errors_15min_clean.csv
+│   │   │   ├── lightgbm_hourly_extended_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── lgbm_feature_importance_hourly_extended.csv
+│   │   │   │   ├── lgbm_model_hourly_extended.pkl
+│   │   │   │   ├── lgbm_predictions_hourly_extended.csv
+│   │   │   │   ├── lgbm_summary_hourly_extended.json
+│   │   │   │   └── lgbm_top_errors_hourly_extended.csv
+│   │   │   ├── lstm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── lstm_feature_importance_15min_clean.csv
+│   │   │   │   ├── lstm_model_15min_clean.keras
+│   │   │   │   ├── lstm_predictions_15min_clean.csv
+│   │   │   │   ├── lstm_summary_15min_clean.json
+│   │   │   │   ├── lstm_top_errors_15min_clean.csv
+│   │   │   │   ├── lstm_x_scaler_15min_clean.pkl
+│   │   │   │   └── lstm_y_scaler_15min_clean.pkl
+│   │   │   ├── lstm_hourly_extended_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── lstm_feature_importance_hourly_extended.csv
+│   │   │   │   ├── lstm_model_hourly_extended.keras
+│   │   │   │   ├── lstm_predictions_hourly_extended.csv
+│   │   │   │   ├── lstm_summary_hourly_extended.json
+│   │   │   │   ├── lstm_top_errors_hourly_extended.csv
+│   │   │   │   ├── lstm_x_scaler_hourly_extended.pkl
+│   │   │   │   └── lstm_y_scaler_hourly_extended.pkl
+│   │   │   ├── mlp_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── mlp_feature_importance_15min_clean.csv
+│   │   │   │   ├── mlp_model_15min_clean.keras
+│   │   │   │   ├── mlp_predictions_15min_clean.csv
+│   │   │   │   ├── mlp_summary_15min_clean.json
+│   │   │   │   ├── mlp_top_errors_15min_clean.csv
+│   │   │   │   ├── mlp_x_scaler_15min_clean.pkl
+│   │   │   │   └── mlp_y_scaler_15min_clean.pkl
+│   │   │   ├── mlp_hourly_extended_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │   │   ├── mlp_feature_importance_hourly_extended.csv
+│   │   │   │   ├── mlp_model_hourly_extended.keras
+│   │   │   │   ├── mlp_predictions_hourly_extended.csv
+│   │   │   │   ├── mlp_summary_hourly_extended.json
+│   │   │   │   ├── mlp_top_errors_hourly_extended.csv
+│   │   │   │   ├── mlp_x_scaler_hourly_extended.pkl
+│   │   │   │   └── mlp_y_scaler_hourly_extended.pkl
+│   │   │   ├── xgboost_hourly_extended_2024-01-01_2026-03-16_2026-03-17_00_00_00
+│   │   │   │   ├── xgb_feature_importance_hourly_extended.csv
+│   │   │   │   ├── xgb_model_hourly_extended.pkl
+│   │   │   │   ├── xgb_predictions_hourly_extended.csv
+│   │   │   │   ├── xgb_summary_hourly_extended.json
+│   │   │   │   └── xgb_top_errors_hourly_extended.csv
+│   │   │   ├── xgboost_hourly_extended_2024-01-01_2026-03-16_2026-03-19_00_00_00
+│   │   │   │   ├── xgb_feature_importance_hourly_extended.csv
+│   │   │   │   ├── xgb_model_hourly_extended.pkl
+│   │   │   │   ├── xgb_predictions_hourly_extended.csv
+│   │   │   │   ├── xgb_summary_hourly_extended.json
+│   │   │   │   └── xgb_top_errors_hourly_extended.csv
+│   │   │   ├── xgboost_hourly_extended_2024-01-01_2026-03-16_2026-03-23_00_00_00
+│   │   │   │   ├── xgb_feature_importance_hourly_extended.csv
+│   │   │   │   ├── xgb_model_hourly_extended.pkl
+│   │   │   │   ├── xgb_predictions_hourly_extended.csv
+│   │   │   │   ├── xgb_summary_hourly_extended.json
+│   │   │   │   └── xgb_top_errors_hourly_extended.csv
+│   │   │   └── xgboost_hourly_extended_2024-01-01_2026-03-16_2026-03-30_00_00_00
+│   │   │       ├── xgb_feature_importance_hourly_extended.csv
+│   │   │       ├── xgb_model_hourly_extended.pkl
+│   │   │       ├── xgb_predictions_hourly_extended.csv
+│   │   │       ├── xgb_summary_hourly_extended.json
+│   │   │       └── xgb_top_errors_hourly_extended.csv
+│   │   ├── catboost_predictions_15min_clean.csv
+│   │   ├── catboost_predictions_15min_extended.csv
+│   │   ├── catboost_predictions_hourly_clean.csv
+│   │   ├── catboost_predictions_hourly_extended.csv
+│   │   ├── ensemble_predictions_15min_clean.csv
+│   │   ├── ensemble_predictions_15min_extended.csv
+│   │   ├── ensemble_predictions_hourly_clean.csv
+│   │   ├── ensemble_predictions_hourly_extended.csv
 │   │   ├── features_15min_clean.csv
 │   │   ├── features_15min_extended.csv
 │   │   ├── features_hourly_clean.csv
 │   │   ├── features_hourly_extended.csv
 │   │   ├── flows_15min.csv
 │   │   ├── flows_hourly.csv
+│   │   ├── lgbm_predictions_15min_clean.csv
+│   │   ├── lgbm_predictions_15min_extended.csv
+│   │   ├── lgbm_predictions_hourly_clean.csv
+│   │   ├── lgbm_predictions_hourly_extended.csv
 │   │   ├── litgrid_features_15min.csv
 │   │   ├── litgrid_features_hourly.csv
+│   │   ├── lstm_predictions_15min_clean.csv
+│   │   ├── lstm_predictions_15min_extended.csv
+│   │   ├── lstm_predictions_hourly_clean.csv
+│   │   ├── lstm_predictions_hourly_extended.csv
 │   │   ├── master_15min.csv
 │   │   ├── master_hourly.csv
 │   │   ├── master_raw.csv
@@ -22,74 +154,106 @@ LT_elektros_kain-_prognozuotojas
 │   │   ├── mlp_predictions_hourly_clean.csv
 │   │   ├── mlp_predictions_hourly_extended.csv
 │   │   ├── model_comparison.csv
-│   │   ├── model_detailed_metrics.csv
 │   │   ├── nordpool_15min.csv
 │   │   ├── nordpool_hourly.csv
-│   │   ├── xgb_best_predictions.csv
-│   │   ├── xgb_predictions.csv
+│   │   ├── weather_lithuania_avg_hourly.csv
+│   │   ├── weather_lithuania_points_hourly.csv
 │   │   ├── xgb_predictions_15min_clean.csv
 │   │   ├── xgb_predictions_15min_extended.csv
 │   │   ├── xgb_predictions_hourly_clean.csv
 │   │   └── xgb_predictions_hourly_extended.csv
-│   └── raw
-│       ├── Commercial transfers
-│       │   ├── Commercial flows.xlsx
-│       │   ├── dashboard_data_2022-01-01_2022-12-31.xls
-│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
-│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
-│       │   ├── dashboard_data_2025-01-01_2025-09-29.xls
-│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
-│       │   └── dashboard_data_2026-01-01_2026-03-15.xls
-│       ├── Electricity consumption data Litgrid
-│       │   ├── dashboard_data_2022-01-01_2022-12-31 (1).xls
-│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
-│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
-│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
-│       │   ├── dashboard_data_2026-01-01_2026-03-15.xls
-│       │   ├── Electricity consumption data combined 1.xls
-│       │   └── Electricity consumption data combined.xlsx
-│       ├── Electricity price Litgrid
-│       │   ├── Combined electricity prices Litgrid.xlsx
-│       │   ├── dashboard_data_2022-01-01_2022-12-31.xls
-│       │   ├── dashboard_data_2023-01-01_2023-12-31.xls
-│       │   ├── dashboard_data_2024-01-01_2024-12-31.xls
-│       │   ├── dashboard_data_2025-01-01_2025-09-30.xls
-│       │   ├── dashboard_data_2025-01-01_2025-12-31.xls
-│       │   └── dashboard_data_2026-01-01_2026-03-15.xls
-│       ├── nordpool_raw
-│       │   ├── GUI_ENERGY_PRICES_202101010000-202201010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202101010000-202201010000.csv
-│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (2).csv
-│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (3).csv
-│       │   ├── GUI_ENERGY_PRICES_202201010000-202301010000.csv
-│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (2).csv
-│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (3).csv
-│       │   ├── GUI_ENERGY_PRICES_202301010000-202401010000.csv
-│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (2).csv
-│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (3).csv
-│       │   ├── GUI_ENERGY_PRICES_202401010000-202501010000.csv
-│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (2).csv
-│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (3).csv
-│       │   ├── GUI_ENERGY_PRICES_202501010000-202601010000.csv
-│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (1).csv
-│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (2).csv
-│       │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (3).csv
-│       │   └── GUI_ENERGY_PRICES_202601010000-202701010000.csv
-│       └── Production data Litgrid
-│           ├── dashboard_data_2022-01-01_2022-12-31.xls
-│           ├── dashboard_data_2023-01-01_2023-12-31.xls
-│           ├── dashboard_data_2024-01-01_2024-12-31.xls
-│           ├── dashboard_data_2025-01-01_2025-03-31.xls
-│           ├── dashboard_data_2025-04-01_2025-07-31.xls
-│           ├── dashboard_data_2025-08-01_2025-12-31.xls
-│           ├── dashboard_data_2026-01-01_2026-03-15.xls
-│           └── Factual production data.xlsx
+│   ├── raw
+│   │   ├── Commercial transfers
+│   │   │   ├── Commercial flows.xlsx
+│   │   │   ├── dashboard_data_2022-01-01_2022-12-31.xls
+│   │   │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│   │   │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│   │   │   ├── dashboard_data_2025-01-01_2025-09-29.xls
+│   │   │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│   │   │   ├── dashboard_data_2026-01-01_2026-03-15.xls
+│   │   │   └── dashboard_data_2026-03-16_2026-03-31 (2).xls
+│   │   ├── Electricity consumption data Litgrid
+│   │   │   ├── dashboard_data_2022-01-01_2022-12-31 (1).xls
+│   │   │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│   │   │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│   │   │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│   │   │   ├── dashboard_data_2026-01-01_2026-03-15.xls
+│   │   │   ├── dashboard_data_2026-03-16_2026-03-31.xls
+│   │   │   └── Electricity consumption data combined.xlsx
+│   │   ├── Electricity price Litgrid
+│   │   │   ├── Combined electricity prices Litgrid.xlsx
+│   │   │   ├── dashboard_data_2022-01-01_2022-12-31.xls
+│   │   │   ├── dashboard_data_2023-01-01_2023-12-31.xls
+│   │   │   ├── dashboard_data_2024-01-01_2024-12-31.xls
+│   │   │   ├── dashboard_data_2025-01-01_2025-09-30.xls
+│   │   │   ├── dashboard_data_2025-01-01_2025-12-31.xls
+│   │   │   ├── dashboard_data_2026-01-01_2026-03-15.xls
+│   │   │   └── dashboard_data_2026-03-16_2026-03-31 (3).xls
+│   │   ├── nordpool_raw
+│   │   │   ├── GUI_ENERGY_PRICES_202101010000-202201010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202101010000-202201010000.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (2).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202201010000-202301010000 (3).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202201010000-202301010000.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (2).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202301010000-202401010000 (3).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202301010000-202401010000.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (2).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202401010000-202501010000 (3).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202401010000-202501010000.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (2).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202501010000-202601010000 (3).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202501010000-202601010000.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (1) 2.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (1).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (2) 2.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (2).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (3) 2.csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (3).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (4).csv
+│   │   │   ├── GUI_ENERGY_PRICES_202601010000-202701010000 (5).csv
+│   │   │   └── GUI_ENERGY_PRICES_202601010000-202701010000.csv
+│   │   └── Production data Litgrid
+│   │       ├── dashboard_data_2022-01-01_2022-12-31.xls
+│   │       ├── dashboard_data_2023-01-01_2023-12-31.xls
+│   │       ├── dashboard_data_2024-01-01_2024-12-31.xls
+│   │       ├── dashboard_data_2025-01-01_2025-03-31.xls
+│   │       ├── dashboard_data_2025-04-01_2025-07-31.xls
+│   │       ├── dashboard_data_2025-08-01_2025-12-31.xls
+│   │       ├── dashboard_data_2026-01-01_2026-03-15.xls
+│   │       ├── dashboard_data_2026-03-16_2026-03-31 (1).xls
+│   │       └── Factual production data.xlsx
+│   ├── reports
+│   │   ├── dataset_column_quality.csv
+│   │   ├── dataset_numeric_stats.csv
+│   │   ├── dataset_report.txt
+│   │   └── dataset_summary.csv
+│   └── analyze_datasets.py
 ├── models
-│   ├── generate_final_plots.py
+│   ├── catboost_model_15min_clean.cbm
+│   ├── catboost_model_15min_extended.cbm
+│   ├── catboost_model_hourly_clean.cbm
+│   ├── catboost_model_hourly_extended.cbm
+│   ├── lgbm_model_15min_clean.pkl
+│   ├── lgbm_model_15min_extended.pkl
+│   ├── lgbm_model_hourly_clean.pkl
+│   ├── lgbm_model_hourly_extended.pkl
+│   ├── lstm_model_15min_clean.keras
+│   ├── lstm_model_15min_extended.keras
+│   ├── lstm_model_hourly_clean.keras
+│   ├── lstm_model_hourly_extended.keras
+│   ├── lstm_scaler_15min_clean.pkl
+│   ├── lstm_scaler_15min_extended.pkl
+│   ├── lstm_scaler_hourly_clean.pkl
+│   ├── lstm_scaler_hourly_extended.pkl
+│   ├── lstm_y_scaler_15min_clean.pkl
+│   ├── lstm_y_scaler_15min_extended.pkl
+│   ├── lstm_y_scaler_hourly_clean.pkl
+│   ├── lstm_y_scaler_hourly_extended.pkl
 │   ├── mlp_model_15min_clean.keras
 │   ├── mlp_model_15min_extended.keras
 │   ├── mlp_model_hourly_clean.keras
@@ -98,31 +262,99 @@ LT_elektros_kain-_prognozuotojas
 │   ├── mlp_scaler_15min_extended.pkl
 │   ├── mlp_scaler_hourly_clean.pkl
 │   ├── mlp_scaler_hourly_extended.pkl
-│   ├── plot_model_predictions.py
+│   ├── mlp_y_scaler_15min_clean.pkl
+│   ├── mlp_y_scaler_15min_extended.pkl
+│   ├── mlp_y_scaler_hourly_clean.pkl
+│   ├── mlp_y_scaler_hourly_extended.pkl
 │   ├── run_all_models.py
-│   ├── run_no_leakage_test.py
+│   ├── train_catboost.py
+│   ├── train_ensemble.py
+│   ├── train_lgbm.py
+│   ├── train_lstm.py
 │   ├── train_mlp.py
 │   ├── train_xgb.py
-│   ├── xgb.pkl
-│   ├── xgb_best.pkl
 │   ├── xgb_model_15min_clean.pkl
 │   ├── xgb_model_15min_extended.pkl
 │   ├── xgb_model_hourly_clean.pkl
 │   └── xgb_model_hourly_extended.pkl
 ├── notebooks
 ├── reports
-│   ├── xgb_errors.csv
-│   ├── xgb_feature_importance.csv
+│   ├── catboost_cv_results_15min_clean.csv
+│   ├── catboost_cv_results_15min_extended.csv
+│   ├── catboost_cv_results_hourly_clean.csv
+│   ├── catboost_cv_results_hourly_extended.csv
+│   ├── catboost_feature_importance_15min_clean.csv
+│   ├── catboost_feature_importance_15min_extended.csv
+│   ├── catboost_feature_importance_hourly_clean.csv
+│   ├── catboost_feature_importance_hourly_extended.csv
+│   ├── catboost_summary_15min_clean.json
+│   ├── catboost_summary_15min_extended.json
+│   ├── catboost_summary_hourly_clean.json
+│   ├── catboost_summary_hourly_extended.json
+│   ├── catboost_top_errors_15min_clean.csv
+│   ├── catboost_top_errors_15min_extended.csv
+│   ├── catboost_top_errors_hourly_clean.csv
+│   ├── catboost_top_errors_hourly_extended.csv
+│   ├── ensemble_summary_15min_clean.json
+│   ├── ensemble_summary_15min_extended.json
+│   ├── ensemble_summary_hourly_clean.json
+│   ├── ensemble_summary_hourly_extended.json
+│   ├── ensemble_top_errors_15min_clean.csv
+│   ├── ensemble_top_errors_15min_extended.csv
+│   ├── ensemble_top_errors_hourly_clean.csv
+│   ├── ensemble_top_errors_hourly_extended.csv
+│   ├── ensemble_weight_search_15min_clean.csv
+│   ├── ensemble_weight_search_15min_extended.csv
+│   ├── ensemble_weight_search_hourly_clean.csv
+│   ├── ensemble_weight_search_hourly_extended.csv
+│   ├── lgbm_cv_results_15min_clean.csv
+│   ├── lgbm_cv_results_15min_extended.csv
+│   ├── lgbm_cv_results_hourly_clean.csv
+│   ├── lgbm_cv_results_hourly_extended.csv
+│   ├── lgbm_feature_importance_15min_clean.csv
+│   ├── lgbm_feature_importance_15min_extended.csv
+│   ├── lgbm_feature_importance_hourly_clean.csv
+│   ├── lgbm_feature_importance_hourly_extended.csv
+│   ├── lgbm_summary_15min_clean.json
+│   ├── lgbm_summary_15min_extended.json
+│   ├── lgbm_summary_hourly_clean.json
+│   ├── lgbm_summary_hourly_extended.json
+│   ├── lgbm_top_errors_15min_clean.csv
+│   ├── lgbm_top_errors_15min_extended.csv
+│   ├── lgbm_top_errors_hourly_clean.csv
+│   ├── lgbm_top_errors_hourly_extended.csv
+│   ├── lstm_history_15min_clean.csv
+│   ├── lstm_history_15min_extended.csv
+│   ├── lstm_history_hourly_clean.csv
+│   ├── lstm_history_hourly_extended.csv
+│   ├── lstm_summary_15min_clean.json
+│   ├── lstm_summary_15min_extended.json
+│   ├── lstm_summary_hourly_clean.json
+│   ├── lstm_summary_hourly_extended.json
+│   ├── lstm_top_errors_15min_clean.csv
+│   ├── lstm_top_errors_15min_extended.csv
+│   ├── lstm_top_errors_hourly_clean.csv
+│   ├── lstm_top_errors_hourly_extended.csv
+│   ├── mlp_history_15min_clean.csv
+│   ├── mlp_history_15min_extended.csv
+│   ├── mlp_history_hourly_clean.csv
+│   ├── mlp_history_hourly_extended.csv
+│   ├── mlp_summary_15min_clean.json
+│   ├── mlp_summary_15min_extended.json
+│   ├── mlp_summary_hourly_clean.json
+│   ├── mlp_summary_hourly_extended.json
+│   ├── mlp_top_errors_15min_clean.csv
+│   ├── mlp_top_errors_15min_extended.csv
+│   ├── mlp_top_errors_hourly_clean.csv
+│   ├── mlp_top_errors_hourly_extended.csv
 │   ├── xgb_feature_importance_15min_clean.csv
 │   ├── xgb_feature_importance_15min_extended.csv
 │   ├── xgb_feature_importance_hourly_clean.csv
 │   ├── xgb_feature_importance_hourly_extended.csv
-│   ├── xgb_summary.json
 │   ├── xgb_summary_15min_clean.json
 │   ├── xgb_summary_15min_extended.json
 │   ├── xgb_summary_hourly_clean.json
 │   ├── xgb_summary_hourly_extended.json
-│   ├── xgb_top_errors.csv
 │   ├── xgb_top_errors_15min_clean.csv
 │   ├── xgb_top_errors_15min_extended.csv
 │   ├── xgb_top_errors_hourly_clean.csv
@@ -133,8 +365,11 @@ LT_elektros_kain-_prognozuotojas
 │   ├── merge_nordpool_to_master.py
 │   ├── prepare_flows_data.py
 │   ├── prepare_litgrid_data.py
-│   └── prepare_master_data.py
+│   ├── prepare_master_data.py
+│   └── prepare_weather_data.py
 ├── .gitignore
+├── delete_forecast.py
+├── project_structure.txt
 ├── README.md
 ├── requirements.txt
 └── showtree.py

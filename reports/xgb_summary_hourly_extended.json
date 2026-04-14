@@ -4,36 +4,37 @@
   "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_hourly_extended.csv",
   "row_count": 36848,
   "feature_count": 159,
-  "train_rows": 36512,
-  "test_rows": 336,
+  "train_rows": 36105,
+  "test_rows": 360,
   "train_start": "2022-01-08 00:00:00",
-  "train_end": "2026-03-17 22:00:00",
-  "test_start": "2026-03-17 23:00:00",
-  "test_end": "2026-03-31 23:00:00",
-  "mae": 15.623266290400533,
-  "rmse": 26.40989876585174,
-  "r2": 0.8546048535301395,
-  "smape": 29.771882785392528,
+  "train_end": "2026-02-28 23:00:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:00:00",
+  "manual_split": true,
+  "mae": 6.640569305385151,
+  "rmse": 11.123142341174123,
+  "r2": 0.9652543696447636,
+  "smape": 15.723285211689447,
   "top_5_features": [
     {
       "feature": "lag_1",
-      "importance_gain": 0.384566992521286
+      "importance_gain": 0.3837737739086151
     },
     {
       "feature": "lag_2",
-      "importance_gain": 0.1064465120434761
+      "importance_gain": 0.1295105665922165
     },
     {
       "feature": "lv_price_rolling_mean_24h",
-      "importance_gain": 0.09040654450654984
+      "importance_gain": 0.06155575066804886
     },
     {
       "feature": "flow_lt_lv_lag_48h",
-      "importance_gain": 0.02529417723417282
+      "importance_gain": 0.024510489776730537
     },
     {
       "feature": "lag_24",
-      "importance_gain": 0.01516240369528532
+      "importance_gain": 0.017775526270270348
     }
   ],
   "output_files": {

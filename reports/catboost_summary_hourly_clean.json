@@ -1,0 +1,69 @@
+{
+  "model": "CatBoost",
+  "dataset": "hourly_clean",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_hourly_clean.csv",
+  "row_count": 36848,
+  "feature_count": 106,
+  "train_rows": 36105,
+  "test_rows": 360,
+  "train_start": "2022-01-08 00:00:00",
+  "train_end": "2026-02-28 23:00:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:00:00",
+  "manual_split": true,
+  "cv_n_splits": 3,
+  "cv_candidates": 6,
+  "best_params": {
+    "iterations": 700,
+    "learning_rate": 0.02,
+    "depth": 6,
+    "l2_leaf_reg": 7.0,
+    "subsample": 0.8
+  },
+  "best_cv_result": {
+    "iterations": 700.0,
+    "learning_rate": 0.02,
+    "depth": 6.0,
+    "l2_leaf_reg": 7.0,
+    "subsample": 0.8,
+    "cv_mae_mean": 14.856998008177976,
+    "cv_mae_std": 1.0513907967953768,
+    "cv_rmse_mean": 29.795748370600432,
+    "cv_r2_mean": 0.8139427958255574,
+    "cv_smape_mean": 26.3198409948649
+  },
+  "mae": 12.380875925594045,
+  "rmse": 23.041747377432287,
+  "r2": 0.8509005549415194,
+  "smape": 22.525660477836777,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance": 54.65274742068318
+    },
+    {
+      "feature": "lv_price",
+      "importance": 12.919688924102834
+    },
+    {
+      "feature": "lag_2",
+      "importance": 6.000388598519767
+    },
+    {
+      "feature": "lag_24",
+      "importance": 3.2304889033568434
+    },
+    {
+      "feature": "ee_price",
+      "importance": 2.1139535273802843
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/catboost_predictions_hourly_clean.csv",
+    "model": "models/catboost_model_hourly_clean.cbm",
+    "importance_csv": "reports/catboost_feature_importance_hourly_clean.csv",
+    "top_errors_csv": "reports/catboost_top_errors_hourly_clean.csv",
+    "summary_json": "reports/catboost_summary_hourly_clean.json",
+    "cv_results_csv": "reports/catboost_cv_results_hourly_clean.csv"
+  }
+}

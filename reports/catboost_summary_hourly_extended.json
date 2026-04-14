@@ -1,0 +1,69 @@
+{
+  "model": "CatBoost",
+  "dataset": "hourly_extended",
+  "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_hourly_extended.csv",
+  "row_count": 36848,
+  "feature_count": 159,
+  "train_rows": 36105,
+  "test_rows": 360,
+  "train_start": "2022-01-08 00:00:00",
+  "train_end": "2026-02-28 23:00:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:00:00",
+  "manual_split": true,
+  "cv_n_splits": 3,
+  "cv_candidates": 6,
+  "best_params": {
+    "iterations": 500,
+    "learning_rate": 0.03,
+    "depth": 6,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8
+  },
+  "best_cv_result": {
+    "iterations": 500.0,
+    "learning_rate": 0.03,
+    "depth": 6.0,
+    "l2_leaf_reg": 5.0,
+    "subsample": 0.8,
+    "cv_mae_mean": 11.956156700171016,
+    "cv_mae_std": 0.5078980743865718,
+    "cv_rmse_mean": 25.778455490958553,
+    "cv_r2_mean": 0.8585609771516743,
+    "cv_smape_mean": 22.62060994889136
+  },
+  "mae": 8.311693284905042,
+  "rmse": 15.043225363492308,
+  "r2": 0.9364483063703261,
+  "smape": 16.693445447442066,
+  "top_5_features": [
+    {
+      "feature": "lag_1",
+      "importance": 55.34171212507777
+    },
+    {
+      "feature": "spread_lv_change",
+      "importance": 4.427792231887312
+    },
+    {
+      "feature": "lv_price_rolling_mean_24h",
+      "importance": 4.37496777028571
+    },
+    {
+      "feature": "lag_24",
+      "importance": 4.278656523604551
+    },
+    {
+      "feature": "spread_lv",
+      "importance": 3.8123601666062275
+    }
+  ],
+  "output_files": {
+    "predictions": "data/processed/catboost_predictions_hourly_extended.csv",
+    "model": "models/catboost_model_hourly_extended.cbm",
+    "importance_csv": "reports/catboost_feature_importance_hourly_extended.csv",
+    "top_errors_csv": "reports/catboost_top_errors_hourly_extended.csv",
+    "summary_json": "reports/catboost_summary_hourly_extended.json",
+    "cv_results_csv": "reports/catboost_cv_results_hourly_extended.csv"
+  }
+}

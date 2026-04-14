@@ -1,0 +1,368 @@
+DUOMENU RINKINIU KOKYBES ATASKAITA
+================================================================================
+
+FAILAS: flows_15min.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 148893
+Stulpeliu skaicius: 6
+Failo dydis (KB): 8665.95
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: 15min
+Dažniausi intervalai: 15 min -> 148892 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 16728
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=148893
+  - flow_abs_total | dtype=float64 | missing=0 (0.0%) | zeros=76.0 | unique=20513
+  - flow_lt_lv | dtype=float64 | missing=0 (0.0%) | zeros=152.0 | unique=19699
+  - flow_lt_pl | dtype=float64 | missing=0 (0.0%) | zeros=11500.0 | unique=10120
+  - flow_lt_se | dtype=float64 | missing=0 (0.0%) | zeros=4924.0 | unique=10294
+  - flow_total | dtype=float64 | missing=0 (0.0%) | zeros=76.0 | unique=21658
+
+SKAITINIU STULPELIU STATISTIKA:
+  - flow_abs_total | count=148893 | mean=1152.2179 | std=369.8797 | min=0.0000 | median=1134.9000 | max=2329.0000
+  - flow_lt_lv | count=148893 | mean=-198.7222 | std=404.1060 | min=-1201.0000 | median=-207.0000 | max=1174.0000
+  - flow_lt_pl | count=148893 | mean=20.7177 | std=287.7883 | min=-492.1000 | median=50.0000 | max=500.0000
+  - flow_lt_se | count=148893 | mean=-517.0485 | std=276.4626 | min=-1026.1000 | median=-656.8000 | max=700.0000
+  - flow_total | count=148893 | mean=-695.0530 | std=374.6236 | min=-1921.9000 | median=-736.5250 | max=1177.6500
+
+
+FAILAS: flows_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 37215
+Stulpeliu skaicius: 6
+Failo dydis (KB): 2166.07
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 37205 kartų; 120 min -> 9 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 4167
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37215
+  - flow_abs_total | dtype=float64 | missing=0 (0.0%) | zeros=16.0 | unique=20513
+  - flow_lt_lv | dtype=float64 | missing=0 (0.0%) | zeros=35.0 | unique=19699
+  - flow_lt_pl | dtype=float64 | missing=0 (0.0%) | zeros=2872.0 | unique=10120
+  - flow_lt_se | dtype=float64 | missing=0 (0.0%) | zeros=1228.0 | unique=10294
+  - flow_total | dtype=float64 | missing=0 (0.0%) | zeros=16.0 | unique=21658
+
+SKAITINIU STULPELIU STATISTIKA:
+  - flow_abs_total | count=37215 | mean=1152.3571 | std=369.7623 | min=0.0000 | median=1135.0000 | max=2329.0000
+  - flow_lt_lv | count=37215 | mean=-198.7509 | std=404.1380 | min=-1201.0000 | median=-207.0000 | max=1174.0000
+  - flow_lt_pl | count=37215 | mean=20.7100 | std=287.8147 | min=-492.1000 | median=50.0000 | max=500.0000
+  - flow_lt_se | count=37215 | mean=-517.0851 | std=276.4780 | min=-1026.1000 | median=-656.9000 | max=700.0000
+  - flow_total | count=37215 | mean=-695.1260 | std=374.6022 | min=-1921.9000 | median=-736.6750 | max=1177.6500
+
+
+FAILAS: litgrid_features_15min.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 148893
+Stulpeliu skaicius: 3
+Failo dydis (KB): 5592.62
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: 15min
+Dažniausi intervalai: 15 min -> 148892 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 0
+
+STULPELIU KOKYBE:
+  - consumption_mw | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=36734
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=148893
+  - production_total_mw | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=36778
+
+SKAITINIU STULPELIU STATISTIKA:
+  - consumption_mw | count=148893 | mean=1382.9589 | std=281.4749 | min=626.6655 | median=1359.1753 | max=2674.6345
+  - production_total_mw | count=148893 | mean=777.3569 | std=386.2452 | min=93.8760 | median=726.0530 | max=2425.1565
+
+
+FAILAS: litgrid_features_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 37218
+Stulpeliu skaicius: 3
+Failo dydis (KB): 1398.01
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 37211 kartų; 120 min -> 6 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 0
+
+STULPELIU KOKYBE:
+  - consumption_mw | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=36734
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37218
+  - production_total_mw | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=36778
+
+SKAITINIU STULPELIU STATISTIKA:
+  - consumption_mw | count=37218 | mean=1383.0021 | std=281.4662 | min=626.6655 | median=1359.2035 | max=2674.6345
+  - production_total_mw | count=37218 | mean=777.3795 | std=386.2531 | min=93.8760 | median=726.0545 | max=2425.1565
+
+
+FAILAS: master_15min.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 17276
+Stulpeliu skaicius: 2
+Failo dydis (KB): 443.47
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2025-10-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:45:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: 15min
+Dažniausi intervalai: 15 min -> 17273 kartų; 2895 min -> 1 kartų; 75 min -> 1 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 28
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=17276
+  - price | dtype=float64 | missing=0 (0.0%) | zeros=28.0 | unique=10499
+
+SKAITINIU STULPELIU STATISTIKA:
+  - price | count=17276 | mean=114.9646 | std=88.7766 | min=-2.2000 | median=99.9500 | max=1173.6500
+
+
+FAILAS: master_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 37146
+Stulpeliu skaicius: 2
+Failo dydis (KB): 966.04
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 37137 kartų; 120 min -> 6 kartų; 1500 min -> 1 kartų; 2940 min -> 1 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 123
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37146
+  - price | dtype=float64 | missing=0 (0.0%) | zeros=123.0 | unique=21028
+
+SKAITINIU STULPELIU STATISTIKA:
+  - price | count=37146 | mean=124.6138 | std=113.0875 | min=-56.5500 | median=99.5263 | max=4000.0000
+
+
+FAILAS: master_raw.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 50103
+Stulpeliu skaicius: 2
+Failo dydis (KB): 1285.97
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:45:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 32821 kartų; 15 min -> 17273 kartų; 120 min -> 5 kartų; 1500 min -> 1 kartų; 2895 min -> 1 kartų; 75 min -> 1 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 149
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=50103
+  - price | dtype=float64 | missing=0 (0.0%) | zeros=149.0 | unique=21271
+
+SKAITINIU STULPELIU STATISTIKA:
+  - price | count=50103 | mean=122.1185 | std=107.6272 | min=-56.5500 | median=99.5500 | max=4000.0000
+
+
+FAILAS: master_with_nordpool_15min.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 17276
+Stulpeliu skaicius: 6
+Failo dydis (KB): 868.09
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2025-10-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:45:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: 15min
+Dažniausi intervalai: 15 min -> 17273 kartų; 2895 min -> 1 kartų; 75 min -> 1 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 128
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=17276
+  - ee_price | dtype=float64 | missing=0 (0.0%) | zeros=16.0 | unique=9811
+  - lv_price | dtype=float64 | missing=0 (0.0%) | zeros=28.0 | unique=10461
+  - pl_price | dtype=float64 | missing=0 (0.0%) | zeros=37.0 | unique=9194
+  - price | dtype=float64 | missing=0 (0.0%) | zeros=28.0 | unique=10499
+  - se4_price | dtype=float64 | missing=0 (0.0%) | zeros=19.0 | unique=10536
+
+SKAITINIU STULPELIU STATISTIKA:
+  - ee_price | count=17276 | mean=104.8927 | std=89.3626 | min=-0.5300 | median=93.1900 | max=1051.3200
+  - lv_price | count=17276 | mean=113.8328 | std=89.3904 | min=-2.2000 | median=99.3200 | max=1173.6500
+  - pl_price | count=17276 | mean=118.2361 | std=54.3911 | min=-73.7800 | median=108.8150 | max=574.4200
+  - price | count=17276 | mean=114.9646 | std=88.7766 | min=-2.2000 | median=99.9500 | max=1173.6500
+  - se4_price | count=17276 | mean=81.2180 | std=52.0737 | min=-6.2300 | median=80.4400 | max=519.0800
+
+
+FAILAS: master_with_nordpool_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 37146
+Stulpeliu skaicius: 6
+Failo dydis (KB): 1922.61
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 37137 kartų; 120 min -> 6 kartų; 1500 min -> 1 kartų; 2940 min -> 1 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 587
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37146
+  - ee_price | dtype=float64 | missing=0 (0.0%) | zeros=132.0 | unique=20289
+  - lv_price | dtype=float64 | missing=0 (0.0%) | zeros=115.0 | unique=20948
+  - pl_price | dtype=float64 | missing=0 (0.0%) | zeros=62.0 | unique=18510
+  - price | dtype=float64 | missing=0 (0.0%) | zeros=123.0 | unique=21028
+  - se4_price | dtype=float64 | missing=0 (0.0%) | zeros=155.0 | unique=19398
+
+SKAITINIU STULPELIU STATISTIKA:
+  - ee_price | count=37146 | mean=113.4811 | std=101.8366 | min=-60.0400 | median=95.7313 | max=4000.0000
+  - lv_price | count=37146 | mean=123.7817 | std=111.7207 | min=-56.5500 | median=99.3850 | max=4000.0000
+  - pl_price | count=37146 | mean=119.8398 | std=62.7979 | min=-132.9500 | median=109.8287 | max=771.0000
+  - price | count=37146 | mean=124.6138 | std=113.0875 | min=-56.5500 | median=99.5263 | max=4000.0000
+  - se4_price | count=37146 | mean=82.6666 | std=90.1639 | min=-60.0400 | median=61.6650 | max=799.9700
+
+
+FAILAS: nordpool_15min.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 79888
+Stulpeliu skaicius: 5
+Failo dydis (KB): 3409.9
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2021-01-01 00:00:00
+Laikotarpio pabaiga: 2026-04-12 21:45:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: 15min
+Dažniausi intervalai: 15 min -> 44823 kartų; 60 min -> 35064 kartų
+Bendras trukstamu reikšmių skaičius: 17520
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 951
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=79888
+  - ee_price | dtype=float64 | missing=0 (0.0%) | zeros=278.0 | unique=21535
+  - lv_price | dtype=float64 | missing=8760 (10.9654%) | zeros=222.0 | unique=21385
+  - pl_price | dtype=float64 | missing=8760 (10.9654%) | zeros=238.0 | unique=18220
+  - se4_price | dtype=float64 | missing=0 (0.0%) | zeros=213.0 | unique=19960
+
+SKAITINIU STULPELIU STATISTIKA:
+  - ee_price | count=79888 | mean=99.4262 | std=90.5509 | min=-60.0400 | median=86.0200 | max=4000.0000
+  - lv_price | count=71128 | mean=108.7735 | std=98.7962 | min=-56.5500 | median=92.0750 | max=4000.0000
+  - pl_price | count=71128 | mean=113.5686 | std=59.5463 | min=-210.4800 | median=107.2700 | max=771.0000
+  - se4_price | count=79888 | mean=75.8361 | std=73.4715 | min=-60.0400 | median=62.5900 | max=799.9700
+
+
+FAILAS: nordpool_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 46270
+Stulpeliu skaicius: 5
+Failo dydis (KB): 1998.26
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2021-01-01 00:00:00
+Laikotarpio pabaiga: 2026-04-12 21:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 46269 kartų
+Bendras trukstamu reikšmių skaičius: 17520
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 466
+
+STULPELIU KOKYBE:
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=46270
+  - ee_price | dtype=float64 | missing=0 (0.0%) | zeros=134.0 | unique=22277
+  - lv_price | dtype=float64 | missing=8760 (18.9324%) | zeros=115.0 | unique=21212
+  - pl_price | dtype=float64 | missing=8760 (18.9324%) | zeros=62.0 | unique=18768
+  - se4_price | dtype=float64 | missing=0 (0.0%) | zeros=155.0 | unique=21268
+
+SKAITINIU STULPELIU STATISTIKA:
+  - ee_price | count=46270 | mean=107.9257 | std=96.7321 | min=-60.0400 | median=90.0800 | max=4000.0000
+  - lv_price | count=37510 | mean=123.1091 | std=111.5005 | min=-56.5500 | median=99.0000 | max=4000.0000
+  - pl_price | count=37510 | mean=119.5010 | std=62.9171 | min=-198.0525 | median=109.7000 | max=771.0000
+  - se4_price | count=46270 | mean=82.0537 | std=85.5783 | min=-60.0400 | median=62.0800 | max=799.9700
+
+
+FAILAS: weather_lithuania_avg_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 37224
+Stulpeliu skaicius: 6
+Failo dydis (KB): 3269.99
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 0
+Aptiktas daznis: hourly
+Dažniausi intervalai: 60 min -> 37223 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 38730
+
+STULPELIU KOKYBE:
+  - cloud_cover | dtype=float64 | missing=0 (0.0%) | zeros=702.0 | unique=701
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37224
+  - shortwave_radiation | dtype=float64 | missing=0 (0.0%) | zeros=17229.0 | unique=4905
+  - solar_proxy | dtype=float64 | missing=0 (0.0%) | zeros=20796.0 | unique=16071
+  - temperature_2m | dtype=float64 | missing=0 (0.0%) | zeros=3.0 | unique=3925
+  - wind_speed_10m | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=2845
+
+SKAITINIU STULPELIU STATISTIKA:
+  - cloud_cover | count=37224 | mean=68.7768 | std=32.8822 | min=0.0000 | median=81.4286 | max=100.0000
+  - shortwave_radiation | count=37224 | mean=124.5167 | std=194.0169 | min=0.0000 | median=4.1429 | max=870.0000
+  - solar_proxy | count=37224 | mean=53.2513 | std=117.5894 | min=0.0000 | median=0.0000 | max=870.0000
+  - temperature_2m | count=37224 | mean=7.9883 | std=8.9081 | min=-27.1429 | median=7.4714 | max=31.1714
+  - wind_speed_10m | count=37224 | mean=13.3745 | std=5.8286 | min=1.9714 | median=12.5429 | max=41.2857
+
+
+FAILAS: weather_lithuania_points_hourly.csv
+--------------------------------------------------------------------------------
+Eiluciu skaicius: 260568
+Stulpeliu skaicius: 8
+Failo dydis (KB): 15622.31
+Yra datetime stulpelis: True
+Laikotarpio pradzia: 2022-01-01 00:00:00
+Laikotarpio pabaiga: 2026-03-31 23:00:00
+Datetime null reiksmės: 0
+Datetime dublikatai: 223344
+Aptiktas daznis: 0min
+Dažniausi intervalai: 0 min -> 223344 kartų; 60 min -> 37223 kartų
+Bendras trukstamu reikšmių skaičius: 0
+Bendras nuliniu reikšmių skaičius skaitiniuose stulpeliuose: 152325
+
+STULPELIU KOKYBE:
+  - cloud_cover | dtype=int64 | missing=0 (0.0%) | zeros=27093.0 | unique=101
+  - datetime | dtype=datetime64[ns] | missing=0 (0.0%) | zeros=nan | unique=37224
+  - latitude | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=7
+  - location_name | dtype=object | missing=0 (0.0%) | zeros=nan | unique=7
+  - longitude | dtype=float64 | missing=0 (0.0%) | zeros=0.0 | unique=7
+  - shortwave_radiation | dtype=float64 | missing=0 (0.0%) | zeros=124694.0 | unique=873
+  - temperature_2m | dtype=float64 | missing=0 (0.0%) | zeros=510.0 | unique=607
+  - wind_speed_10m | dtype=float64 | missing=0 (0.0%) | zeros=28.0 | unique=516
+
+SKAITINIU STULPELIU STATISTIKA:
+  - cloud_cover | count=260568 | mean=68.7768 | std=40.1634 | min=0.0000 | median=99.0000 | max=100.0000
+  - latitude | count=260568 | mean=55.2647 | std=0.5527 | min=54.3964 | median=55.4976 | max=55.9349
+  - longitude | count=260568 | mean=23.9485 | std=1.3597 | min=21.1443 | median=24.0414 | max=25.5992
+  - shortwave_radiation | count=260568 | mean=124.5167 | std=198.8993 | min=0.0000 | median=4.0000 | max=886.0000
+  - temperature_2m | count=260568 | mean=7.9883 | std=8.9947 | min=-30.3000 | median=7.4000 | max=34.0000
+  - wind_speed_10m | count=260568 | mean=13.3745 | std=6.5577 | min=0.0000 | median=12.5000 | max=61.3000
+

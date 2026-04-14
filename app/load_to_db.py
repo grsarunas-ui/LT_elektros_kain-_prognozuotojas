@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import argparse
 from datetime import datetime, UTC
 from pathlib import Path
@@ -7,11 +6,18 @@ from pathlib import Path
 import pandas as pd
 
 from app.db import Base, SessionLocal, engine
-from app.models import DataVersion, MarketData, Prediction, ModelMetric
+from app.models import (
+    DataVersion,
+    MarketData,
+    Prediction,
+    ModelMetric,
+    FeatureImportance,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+REPORTS_DIR = PROJECT_ROOT / "reports"
 
 
 MARKET_FILES = {
@@ -30,23 +36,58 @@ MARKET_FILES = {
 PREDICTION_FILES = {
     "15min_clean": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_15min_clean.csv",
+        "LightGBM": PROCESSED_DIR / "lgbm_predictions_15min_clean.csv",
+        "CatBoost": PROCESSED_DIR / "catboost_predictions_15min_clean.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_15min_clean.csv",
         "LSTM": PROCESSED_DIR / "lstm_predictions_15min_clean.csv",
+        "Ensemble": PROCESSED_DIR / "ensemble_predictions_15min_clean.csv",
     },
     "15min_extended": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_15min_extended.csv",
+        "LightGBM": PROCESSED_DIR / "lgbm_predictions_15min_extended.csv",
+        "CatBoost": PROCESSED_DIR / "catboost_predictions_15min_extended.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_15min_extended.csv",
         "LSTM": PROCESSED_DIR / "lstm_predictions_15min_extended.csv",
+        "Ensemble": PROCESSED_DIR / "ensemble_predictions_15min_extended.csv",
     },
     "hourly_clean": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_hourly_clean.csv",
+        "LightGBM": PROCESSED_DIR / "lgbm_predictions_hourly_clean.csv",
+        "CatBoost": PROCESSED_DIR / "catboost_predictions_hourly_clean.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_hourly_clean.csv",
         "LSTM": PROCESSED_DIR / "lstm_predictions_hourly_clean.csv",
+        "Ensemble": PROCESSED_DIR / "ensemble_predictions_hourly_clean.csv",
     },
     "hourly_extended": {
         "XGBoost": PROCESSED_DIR / "xgb_predictions_hourly_extended.csv",
+        "LightGBM": PROCESSED_DIR / "lgbm_predictions_hourly_extended.csv",
+        "CatBoost": PROCESSED_DIR / "catboost_predictions_hourly_extended.csv",
         "MLP": PROCESSED_DIR / "mlp_predictions_hourly_extended.csv",
         "LSTM": PROCESSED_DIR / "lstm_predictions_hourly_extended.csv",
+        "Ensemble": PROCESSED_DIR / "ensemble_predictions_hourly_extended.csv",
+    },
+}
+
+FEATURE_IMPORTANCE_FILES = {
+    "15min_clean": {
+        "XGBoost": REPORTS_DIR / "xgb_feature_importance_15min_clean.csv",
+        "LightGBM": REPORTS_DIR / "lgbm_feature_importance_15min_clean.csv",
+        "CatBoost": REPORTS_DIR / "catboost_feature_importance_15min_clean.csv",
+    },
+    "15min_extended": {
+        "XGBoost": REPORTS_DIR / "xgb_feature_importance_15min_extended.csv",
+        "LightGBM": REPORTS_DIR / "lgbm_feature_importance_15min_extended.csv",
+        "CatBoost": REPORTS_DIR / "catboost_feature_importance_15min_extended.csv",
+    },
+    "hourly_clean": {
+        "XGBoost": REPORTS_DIR / "xgb_feature_importance_hourly_clean.csv",
+        "LightGBM": REPORTS_DIR / "lgbm_feature_importance_hourly_clean.csv",
+        "CatBoost": REPORTS_DIR / "catboost_feature_importance_hourly_clean.csv",
+    },
+    "hourly_extended": {
+        "XGBoost": REPORTS_DIR / "xgb_feature_importance_hourly_extended.csv",
+        "LightGBM": REPORTS_DIR / "lgbm_feature_importance_hourly_extended.csv",
+        "CatBoost": REPORTS_DIR / "catboost_feature_importance_hourly_extended.csv",
     },
 }
 
@@ -278,6 +319,54 @@ def upload_metrics(session, version: DataVersion):
     print(f"✓ Sukelta model_metrics: {len(rows)} eilučių")
 
 
+def upload_feature_importance(session, version: DataVersion):
+    total_rows = 0
+
+    for dataset_name, models in FEATURE_IMPORTANCE_FILES.items():
+        for model_name, path in models.items():
+            df = safe_read_csv(path)
+            if df is None:
+                continue
+
+            if "feature" not in df.columns:
+                print(f"Praleista feature importance dėl blogo formato: {path}")
+                continue
+
+            importance_col = None
+            for candidate in ["importance", "importance_gain", "abs_coefficient", "coefficient"]:
+                if candidate in df.columns:
+                    importance_col = candidate
+                    break
+
+            if importance_col is None:
+                print(f"Praleista feature importance – nerastas importance stulpelis: {path}")
+                continue
+
+            df = safe_numeric(df, [importance_col])
+            df = df.dropna(subset=["feature", importance_col]).reset_index(drop=True)
+
+            rows = []
+            for _, row in df.iterrows():
+                rows.append(
+                    FeatureImportance(
+                        data_version_id=version.id,
+                        dataset_name=dataset_name,
+                        model_name=model_name,
+                        feature=row["feature"],
+                        importance=row[importance_col],
+                    )
+                )
+
+            if rows:
+                session.bulk_save_objects(rows)
+                session.commit()
+                total_rows += len(rows)
+
+            print(f"✓ Sukelta feature_importance: {dataset_name} / {model_name} / {len(rows)} eilučių")
+
+    print(f"✓ Iš viso feature_importance eilučių: {total_rows}")
+
+
 def init_db():
     Base.metadata.create_all(bind=engine)
     print("✓ DB schema sukurta / atnaujinta")
@@ -303,6 +392,7 @@ def load_version(version_name: str, description: str | None, replace: bool):
         upload_market_data(session, version)
         upload_predictions(session, version)
         upload_metrics(session, version)
+        upload_feature_importance(session, version)
 
         print(f"\n✓ Baigta. Data version: {version_name}")
     finally:

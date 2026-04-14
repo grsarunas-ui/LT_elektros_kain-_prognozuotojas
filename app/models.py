@@ -36,6 +36,11 @@ class DataVersion(Base):
         back_populates="data_version",
         cascade="all, delete-orphan",
     )
+    feature_importances = relationship(
+        "FeatureImportance",
+        back_populates="data_version",
+        cascade="all, delete-orphan",
+    )
 
     def __repr__(self):
         return f"<DataVersion(id={self.id}, version_name='{self.version_name}')>"
@@ -57,17 +62,14 @@ class MarketData(Base):
 
     price = Column(Float, nullable=True)
 
-    # Nord Pool
     lv_price = Column(Float, nullable=True)
     ee_price = Column(Float, nullable=True)
     se4_price = Column(Float, nullable=True)
     pl_price = Column(Float, nullable=True)
 
-    # Litgrid
     consumption_mw = Column(Float, nullable=True)
     production_total_mw = Column(Float, nullable=True)
 
-    # Commercial flows
     flow_lt_lv = Column(Float, nullable=True)
     flow_lt_se = Column(Float, nullable=True)
     flow_lt_pl = Column(Float, nullable=True)
@@ -103,8 +105,8 @@ class Prediction(Base):
         nullable=False,
         index=True,
     )
-    dataset_name = Column(String, nullable=False, index=True)   # pvz. hourly_extended
-    model_name = Column(String, nullable=False, index=True)     # pvz. XGBoost / MLP / LSTM
+    dataset_name = Column(String, nullable=False, index=True)
+    model_name = Column(String, nullable=False, index=True)
     datetime = Column(DateTime, nullable=False, index=True)
 
     actual_price = Column(Float, nullable=True)
@@ -143,7 +145,7 @@ class ModelMetric(Base):
         index=True,
     )
     dataset_name = Column(String, nullable=False, index=True)
-    model_name = Column(String, nullable=False, index=True)  # XGBoost / MLP / LSTM
+    model_name = Column(String, nullable=False, index=True)
 
     mae = Column(Float, nullable=True)
     rmse = Column(Float, nullable=True)
@@ -165,4 +167,39 @@ class ModelMetric(Base):
         return (
             f"<ModelMetric(id={self.id}, dataset='{self.dataset_name}', "
             f"model='{self.model_name}')>"
+        )
+
+
+class FeatureImportance(Base):
+    __tablename__ = "feature_importance"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    data_version_id = Column(
+        Integer,
+        ForeignKey("data_versions.id"),
+        nullable=False,
+        index=True,
+    )
+    dataset_name = Column(String, nullable=False, index=True)
+    model_name = Column(String, nullable=False, index=True)
+    feature = Column(String, nullable=False, index=True)
+    importance = Column(Float, nullable=True)
+
+    data_version = relationship("DataVersion", back_populates="feature_importances")
+
+    __table_args__ = (
+        UniqueConstraint(
+            "data_version_id",
+            "dataset_name",
+            "model_name",
+            "feature",
+            name="uq_feature_importance_version_dataset_model_feature",
+        ),
+    )
+
+    def __repr__(self):
+        return (
+            f"<FeatureImportance(id={self.id}, dataset='{self.dataset_name}', "
+            f"model='{self.model_name}', feature='{self.feature}')>"
         )

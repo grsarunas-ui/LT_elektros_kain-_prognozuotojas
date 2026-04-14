@@ -1,6 +1,5 @@
 import pandas as pd
 from sqlalchemy import text
-
 from app.db import engine
 
 

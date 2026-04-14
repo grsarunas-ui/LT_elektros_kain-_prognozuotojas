@@ -1,0 +1,22 @@
+{
+  "run_name": "catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15 00:00:00",
+  "model": "CatBoost",
+  "dataset_name": "hourly_extended",
+  "train_start": "2022-01-08 00:00:00",
+  "train_end": "2026-02-28 00:00:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 00:00:00",
+  "train_rows": 36082,
+  "test_rows": 337,
+  "feature_count": 159,
+  "mae": 7.866920847330706,
+  "rmse": 14.70303543920472,
+  "r2": 0.9404653396439769,
+  "smape": 16.036095846899542,
+  "files": {
+    "predictions": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15_00_00_00/catboost_predictions_hourly_extended.csv",
+    "top_errors": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15_00_00_00/catboost_top_errors_hourly_extended.csv",
+    "importance": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15_00_00_00/catboost_feature_importance_hourly_extended.csv",
+    "model": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/catboost_hourly_extended_2022-01-01_2026-03-01_2026-03-15_00_00_00/catboost_model_hourly_extended.cbm"
+  }
+}

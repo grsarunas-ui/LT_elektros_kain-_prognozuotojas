@@ -4,36 +4,37 @@
   "features_path": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/features_15min_extended.csv",
   "row_count": 16602,
   "feature_count": 160,
-  "train_rows": 15261,
-  "test_rows": 1341,
+  "train_rows": 13632,
+  "test_rows": 1440,
   "train_start": "2025-10-08 00:00:00",
-  "train_end": "2026-03-17 23:00:00",
-  "test_start": "2026-03-17 23:15:00",
-  "test_end": "2026-03-31 23:15:00",
-  "mae": 15.063599633231794,
-  "rmse": 28.695685058334714,
-  "r2": 0.8509906792023116,
-  "smape": 31.69772435021281,
+  "train_end": "2026-02-28 23:45:00",
+  "test_start": "2026-03-01 00:00:00",
+  "test_end": "2026-03-15 23:45:00",
+  "manual_split": true,
+  "mae": 13.246314472489887,
+  "rmse": 22.71997850227726,
+  "r2": 0.870070580185499,
+  "smape": 24.605315449794073,
   "top_5_features": [
     {
       "feature": "lag_1",
-      "importance_gain": 0.3920206129550934
+      "importance_gain": 0.38969510793685913
     },
     {
       "feature": "lag_4",
-      "importance_gain": 0.061921022832393646
+      "importance_gain": 0.06929232180118561
     },
     {
       "feature": "shortwave_radiation_rolling_mean_24h",
-      "importance_gain": 0.03870537877082825
+      "importance_gain": 0.03861650452017784
     },
     {
-      "feature": "consumption_mw_lag_1",
-      "importance_gain": 0.03146563842892647
+      "feature": "spread_pl",
+      "importance_gain": 0.03358468413352966
     },
     {
       "feature": "spread_se4",
-      "importance_gain": 0.019878102466464043
+      "importance_gain": 0.02053733728826046
     }
   ],
   "output_files": {

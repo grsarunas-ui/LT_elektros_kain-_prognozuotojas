@@ -17,19 +17,16 @@ TEST_DAYS = 14
 RANDOM_STATE = 42
 TOP_N_ERRORS = 50
 
-# bendri default
 DEFAULT_VALID_RATIO = 0.15
 DEFAULT_EPOCHS = 120
 DEFAULT_BATCH_SIZE = 64
 DEFAULT_LEARNING_RATE = 5e-4
 
-# 15 min specialūs nustatymai
 VALID_RATIO_15MIN = 0.10
 EPOCHS_15MIN = 120
 BATCH_SIZE_15MIN = 64
 LEARNING_RATE_15MIN = 3e-4
 
-# hourly nustatymai
 VALID_RATIO_HOURLY = 0.15
 EPOCHS_HOURLY = 120
 BATCH_SIZE_HOURLY = 64
@@ -69,6 +66,55 @@ def get_dynamic_split(df: pd.DataFrame, test_days: int = TEST_DAYS):
     test = df[df["datetime"] >= test_start].copy()
 
     return train, test, test_start, max_dt
+
+
+def get_explicit_split(
+    df: pd.DataFrame,
+    train_start: str,
+    train_end: str,
+    test_start: str,
+    test_end: str,
+):
+    train_start_ts = pd.Timestamp(train_start)
+    train_end_ts = pd.Timestamp(train_end)
+    test_start_ts = pd.Timestamp(test_start)
+    test_end_ts = pd.Timestamp(test_end)
+
+    if train_start_ts > train_end_ts:
+        raise ValueError("train_start negali būti vėliau nei train_end.")
+    if test_start_ts > test_end_ts:
+        raise ValueError("test_start negali būti vėliau nei test_end.")
+    if train_end_ts >= test_start_ts:
+        raise ValueError("train_end turi būti ankstesnė data nei test_start, kad nebūtų leakage.")
+
+    train = df[
+        (df["datetime"] >= train_start_ts) & (df["datetime"] <= train_end_ts)
+    ].copy()
+    test = df[
+        (df["datetime"] >= test_start_ts) & (df["datetime"] <= test_end_ts)
+    ].copy()
+
+    return train, test, test_start_ts, test_end_ts
+
+
+def resolve_split(
+    df: pd.DataFrame,
+    train_start: str | None = None,
+    train_end: str | None = None,
+    test_start: str | None = None,
+    test_end: str | None = None,
+):
+    provided = [train_start, train_end, test_start, test_end]
+    if all(v is None for v in provided):
+        return get_dynamic_split(df, test_days=TEST_DAYS)
+
+    if any(v is None for v in provided):
+        raise ValueError(
+            "Jei nori rankinio split, privalai paduoti visas 4 datas: "
+            "--train-start --train-end --test-start --test-end"
+        )
+
+    return get_explicit_split(df, train_start, train_end, test_start, test_end)
 
 
 def get_train_valid_split(train_df: pd.DataFrame, valid_ratio: float):
@@ -220,7 +266,13 @@ def save_top_errors(test_df: pd.DataFrame, y_pred, out_path: Path):
     return out, top_errors
 
 
-def train_mlp(features_path: str):
+def train_mlp(
+    features_path: str,
+    train_start: str | None = None,
+    train_end: str | None = None,
+    test_start: str | None = None,
+    test_end: str | None = None,
+):
     set_seed()
 
     features_path = Path(features_path)
@@ -252,12 +304,18 @@ def train_mlp(features_path: str):
     print("Shape:", df.shape)
     print("Range:", df["datetime"].min(), "->", df["datetime"].max())
 
-    train, test, _, _ = get_dynamic_split(df, test_days=TEST_DAYS)
+    train, test, _, _ = resolve_split(
+        df,
+        train_start=train_start,
+        train_end=train_end,
+        test_start=test_start,
+        test_end=test_end,
+    )
 
     if train.empty:
-        raise ValueError("Train rinkinys tuščias. Per mažai istorinių duomenų.")
+        raise ValueError("Train rinkinys tuščias. Patikrink train datas.")
     if test.empty:
-        raise ValueError("Test rinkinys tuščias. Per mažai naujausių duomenų.")
+        raise ValueError("Test rinkinys tuščias. Patikrink test datas.")
 
     train_fit, valid = get_train_valid_split(train, valid_ratio=profile["valid_ratio"])
 
@@ -277,8 +335,7 @@ def train_mlp(features_path: str):
     if X_train_fit.shape[1] == 0:
         raise ValueError("Nėra feature stulpelių po 'datetime' ir 'price' pašalinimo.")
 
-    print("\nDynamic split:")
-    print("Test days:", TEST_DAYS)
+    print("\nSplit summary:")
     print("Valid ratio:", profile["valid_ratio"])
     print("Train shape:", train.shape)
     print("Train fit shape:", train_fit.shape)
@@ -378,6 +435,7 @@ def train_mlp(features_path: str):
         "valid_end": str(valid["datetime"].max()),
         "test_start": str(test["datetime"].min()),
         "test_end": str(test["datetime"].max()),
+        "manual_split": all(v is not None for v in [train_start, train_end, test_start, test_end]),
         "epochs_trained": int(len(history.history["loss"])),
         "best_val_loss": float(np.min(history.history["val_loss"])),
         "loss_name": profile["loss"],
@@ -414,6 +472,16 @@ if __name__ == "__main__":
         required=True,
         help="Pilnas arba santykinis kelias iki features CSV"
     )
+    parser.add_argument("--train-start", default=None, help="Pvz. 2025-10-01")
+    parser.add_argument("--train-end", default=None, help="Pvz. 2026-02-29 23:59:59")
+    parser.add_argument("--test-start", default=None, help="Pvz. 2026-03-01")
+    parser.add_argument("--test-end", default=None, help="Pvz. 2026-03-15 23:59:59")
     args = parser.parse_args()
 
-    train_mlp(args.features)
+    train_mlp(
+        features_path=args.features,
+        train_start=args.train_start,
+        train_end=args.train_end,
+        test_start=args.test_start,
+        test_end=args.test_end,
+    )

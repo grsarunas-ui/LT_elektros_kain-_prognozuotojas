@@ -1,0 +1,22 @@
+{
+  "run_name": "lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30 00:00:00",
+  "model": "LightGBM",
+  "dataset_name": "15min_clean",
+  "train_start": "2025-10-08 00:00:00",
+  "train_end": "2026-03-15 00:00:00",
+  "test_start": "2026-03-16 00:00:00",
+  "test_end": "2026-03-30 00:00:00",
+  "train_rows": 14977,
+  "test_rows": 1341,
+  "feature_count": 107,
+  "mae": 11.582334210493713,
+  "rmse": 19.3827560199237,
+  "r2": 0.8999743154249933,
+  "smape": 27.103417158205456,
+  "files": {
+    "predictions": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00/lgbm_predictions_15min_clean.csv",
+    "top_errors": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00/lgbm_top_errors_15min_clean.csv",
+    "importance": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00/lgbm_feature_importance_15min_clean.csv",
+    "model": "/Users/sarunas/Documents/LT Elektros kainų prognozuotojas/LT_elektros_kain-_prognozuotojas/data/processed/interactive_runs/lightgbm_15min_clean_2024-01-01_2026-03-16_2026-03-30_00_00_00/lgbm_model_15min_clean.pkl"
+  }
+}
